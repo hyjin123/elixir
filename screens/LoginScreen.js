@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import React, { useEffect, useState } from "react";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import tw from "twrnc";
 import LoginTab from "../components/LoginTab";
 import RegisterTab from "../components/RegisterTab";

@@ -19,22 +19,14 @@ const LoginTab = ({ setLoggedInUserEmail }) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("TabNavigator");
+        navigation.replace("HomeScreen");
       }
     });
 
     return unsubscribe;
   }, []);
 
-  const handleLogin = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        setLoggedInUserEmail(user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
+  const handleLogin = () => {};
 
   return (
     <SafeAreaView>

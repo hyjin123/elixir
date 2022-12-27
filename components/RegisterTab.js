@@ -4,13 +4,11 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import firebase from "firebase";
 
 const RegisterTab = ({ setLoggedInUserEmail }) => {
   const [firstName, setFirstName] = useState("");
@@ -21,42 +19,16 @@ const RegisterTab = ({ setLoggedInUserEmail }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigation.replace("TabNavigator");
+        navigation.replace("HomeScreen");
       }
     });
 
     return unsubscribe;
   }, []);
 
-  const handleSignUp = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-
-        // set the display name and the picture of the user that registers into the firestore database
-        db.collection("users")
-          .doc(user.uid)
-          .set(
-            {
-              displayName: `${firstName} ${lastName}`,
-              email: email,
-              lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
-              photoURL: compressedImage.base64,
-              theme: {
-                primary: ["#cad4fc"],
-                message: ["#a8b8ff", "#bfbbf2", "#9ad8fc"],
-              },
-            },
-            { merge: true }
-          );
-
-        setLoggedInUserEmail(user.email);
-      })
-      .catch((error) => alert(error.message));
-  };
+  const handleSignUp = () => {};
 
   return (
     <SafeAreaView>
