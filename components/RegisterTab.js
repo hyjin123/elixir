@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const RegisterTab = ({ setLoggedInUserEmail }) => {
   const [firstName, setFirstName] = useState("");
@@ -19,7 +20,7 @@ const RegisterTab = ({ setLoggedInUserEmail }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         navigation.replace("HomeScreen");
       }
@@ -28,7 +29,18 @@ const RegisterTab = ({ setLoggedInUserEmail }) => {
     return unsubscribe;
   }, []);
 
-  const handleSignUp = () => {};
+  const handleSignUp = () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+  };
 
   return (
     <SafeAreaView>

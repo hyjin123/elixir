@@ -8,6 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { auth } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 
 const LoginTab = ({ setLoggedInUserEmail }) => {
@@ -26,7 +27,12 @@ const LoginTab = ({ setLoggedInUserEmail }) => {
     return unsubscribe;
   }, []);
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user);
+    });
+  };
 
   return (
     <SafeAreaView>

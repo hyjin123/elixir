@@ -4,11 +4,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
+import { LogBox } from "react-native";
 
 export default function App() {
   const [loggedInUserEmail, setLoggedInUserEmail] = useState();
 
   const Stack = createNativeStackNavigator();
+
+  LogBox.ignoreAllLogs();
 
   return (
     <NavigationContainer>
@@ -25,14 +28,15 @@ export default function App() {
                 setLoggedInUserEmail={setLoggedInUserEmail}
               />
             )}
-            <Stack.Screen
-              name="HomeScreen"
-              component={HomeScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
           </Stack.Screen>
+
+          <Stack.Screen
+            name="HomeScreen"
+            component={HomeScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
         </Stack.Navigator>
       </KeyboardAvoidingView>
     </NavigationContainer>
