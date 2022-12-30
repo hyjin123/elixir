@@ -1,28 +1,16 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
-import { auth } from "../firebase";
-import { useNavigation } from "@react-navigation/core";
+import Header from "../components/Header";
+import ProgressBar from "../components/ProgressBar";
+import PreviousDrinks from "../components/PreviousDrinks";
+import AddDrink from "../components/AddDrink";
+import tw from "twrnc";
 
 const HomeScreen = () => {
-  const navigation = useNavigation();
-
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.navigate("LoginScreen");
-      })
-      .catch((error) => alert(error.message));
-  };
-
   return (
-    <SafeAreaView>
-      <View>
-        <Text>HomeScreen</Text>
-      </View>
-      <TouchableOpacity onPress={handleSignOut}>
-        <Text>Sign-out</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={tw`bg-[#121212] flex-1`}>
+      <Header />
+      <ProgressBar />
     </SafeAreaView>
   );
 };
