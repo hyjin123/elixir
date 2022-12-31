@@ -21,29 +21,32 @@ const ProgressBar = () => {
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>
       <ProgressContainer>
-        <Text style={tw`text-white text-5xl z-10`}>60%</Text>
-        <Text style={tw`text-white text-base z-10`}>0.9 of 1.5l</Text>
-        <Svg
-          height="25%"
-          width="100%"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-          // the absolute position of the wavey svg is 1% lower than the rect svg so that it overlaps
-          style={{ position: "absolute", bottom: "69%" }}
-        >
-          <Path
-            fill="#0099ff"
-            d="M0,288L60,266.7C120,245,240,203,360,208C480,213,600,267,720,288C840,309,960,299,1080,272C1200,245,1320,203,1380,181.3L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"
-          />
-        </Svg>
-        <Svg
-          width="100%"
-          height="70%"
-          style={{ position: "absolute", bottom: 0 }}
-        >
-          <Rect x="0" y="0" width="100%" height="100%" fill="#0099ff" />
-        </Svg>
+        <Progress>
+          <Text style={tw`text-white text-5xl z-10`}>60%</Text>
+          <Text style={tw`text-white text-base z-10`}>0.9 of 1.5l</Text>
+          <Svg
+            height="25%"
+            width="100%"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            // the absolute position of the wavey svg is 1% lower than the rect svg so that it overlaps
+            style={{ position: "absolute", bottom: "39%" }}
+          >
+            <Path
+              fill="#0099ff"
+              d="M0,160L48,149.3C96,139,192,117,288,117.3C384,117,480,139,576,165.3C672,192,768,224,864,208C960,192,1056,128,1152,106.7C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+            />
+          </Svg>
+          <Svg
+            width="100%"
+            height="40%"
+            style={{ position: "absolute", bottom: 0 }}
+          >
+            <Rect x="0" y="0" width="100%" height="100%" fill="#0099ff" />
+          </Svg>
+        </Progress>
       </ProgressContainer>
+
       <TouchableOpacity style={tw`mr-5`}>
         <ChevronRightIcon color="white" />
       </TouchableOpacity>
@@ -53,16 +56,23 @@ const ProgressBar = () => {
 
 export default ProgressBar;
 
-const ProgressContainer = styled.View`
+const Progress = styled.View`
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   color: white;
-  border: 3px solid white;
+  border: 6px solid #121212;
+  outline: 5px solid blue;
   height: 260px;
   width: 260px;
   border-radius: 130px;
   overflow: hidden;
+`;
+
+const ProgressContainer = styled.View`
+  border: 3px solid white;
+  border-radius: 130px;
 `;
 
 const styles = StyleSheet.create({

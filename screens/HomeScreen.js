@@ -11,6 +11,7 @@ const HomeScreen = () => {
     <SafeAreaView style={tw`bg-[#121212] flex-1`}>
       <Header />
       <ProgressBar />
+      <AddDrink />
     </SafeAreaView>
   );
 };
