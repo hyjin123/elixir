@@ -8,7 +8,7 @@ import { Entypo } from "@expo/vector-icons";
 
 const AddDrink = () => {
   return (
-    <View style={tw`mt-15 justify-center items-center mx-5`}>
+    <View style={tw`mt-15 justify-center items-start mx-5`}>
       <View>
         <Text style={tw`text-white font-bold text-lg`}>
           What did you drink today?
@@ -30,7 +30,7 @@ const AddDrink = () => {
               </Text>
             </View>
             <View style={tw`justify-center`}>
-              <ChevronDownIcon color="white" />
+              <ChevronDownIcon color="#bcc4c4" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -43,7 +43,7 @@ const AddDrink = () => {
               </Text>
             </View>
             <View style={tw`justify-center`}>
-              <ChevronDownIcon color="white" />
+              <ChevronDownIcon color="#bcc4c4" />
             </View>
           </TouchableOpacity>
         </View>

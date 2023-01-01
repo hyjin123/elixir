@@ -12,6 +12,7 @@ const HomeScreen = () => {
       <Header />
       <ProgressBar />
       <AddDrink />
+      <PreviousDrinks />
     </SafeAreaView>
   );
 };
