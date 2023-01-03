@@ -1,14 +1,22 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import tw from "twrnc";
 import { ChevronDownIcon } from "react-native-heroicons/solid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import ChooseCupModal from "./ChooseCupModal";
 
 const AddDrink = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
+      {/* Modal - Choose Cup*/}
+      <ChooseCupModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+      />
       <View>
         <Text style={tw`text-white font-bold text-lg`}>
           What did you drink today?
@@ -17,6 +25,7 @@ const AddDrink = () => {
       <View style={tw`flex-row justify-center mt-3`}>
         <View style={tw`flex-1`}>
           <TouchableOpacity
+            onPress={() => setModalVisible(true)}
             style={tw`flex-row justify-between bg-[#282929] mb-3 px-3 py-4 rounded-xl`}
           >
             <View style={tw`flex-row items-center`}>
