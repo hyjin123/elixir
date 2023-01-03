@@ -1,15 +1,37 @@
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from "react-native";
+import React, { useState, useRef } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 
-const ChooseTypeModal = ({ modalVisible, setModalVisible }) => {
+const ChooseTypeModal = ({
+  modalVisible,
+  setModalVisible,
+  selectedType,
+  setSelectedType,
+}) => {
+  const [text, setText] = useState("");
+
+  // used to focus on the text input if the user pressed on the box
+  const inputFocus = useRef(null);
+
+  const handleClose = () => {
+    setModalVisible(false);
+    setText("");
+  };
+
   return (
     <Modal
       isVisible={modalVisible}
-      onBackdropPress={() => setModalVisible(false)}
+      onBackdropPress={handleClose}
       backdropColor="#383838"
+      avoidKeyboard={true}
     >
       <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
         <ScrollView>
@@ -38,16 +60,24 @@ const ChooseTypeModal = ({ modalVisible, setModalVisible }) => {
         </ScrollView>
         <View style={tw`justify-between mb-6 mt-12 pt-2`}>
           <Text style={tw`font-bold text-lg text-white`}>Create your own</Text>
-          <View
-            style={tw`flex-row justify-between border-2 rounded-xl border-white p-3 mt-3`}
+          <TouchableOpacity
+            onPress={() => inputFocus.current.focus()}
+            style={tw`flex-row justify-between items-center border-2 rounded-xl border-white mt-3`}
           >
-            <View>
-              <Text style={tw`font-bold text-lg text-white`}>Name</Text>
+            <View style={tw`p-3`}>
+              <TextInput
+                ref={inputFocus}
+                onChangeText={(newText) => setText(newText)}
+                value={text}
+                placeholder="Name"
+                placeholderTextColor="gray"
+                color="white"
+              />
             </View>
-            <View style={tw`flex-row`}>
+            <TouchableOpacity style={tw`flex-row p-3`}>
               <Ionicons name="add-circle" size={24} color="white" />
-            </View>
-          </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>

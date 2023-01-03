@@ -22,11 +22,15 @@ const AddDrink = () => {
       <ChooseCupModal
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}
+        selectedCup={setSelectedCup}
+        setSelectedCup={setSelectedCup}
       />
       {/* Modal - Choose Type of Drink*/}
       <ChooseTypeModal
         modalVisible={typeModalVisible}
         setModalVisible={setTypeModalVisible}
+        selectedType={selectedType}
+        setSelectedType={setSelectedType}
       />
       <View>
         <Text style={tw`text-white font-bold text-lg`}>
