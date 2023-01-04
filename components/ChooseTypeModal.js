@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Pressable,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import Modal from "react-native-modal";
@@ -17,6 +18,7 @@ const ChooseTypeModal = ({
   setSelectedType,
 }) => {
   const [text, setText] = useState("");
+  const [userOption, setUserOption] = useState("");
 
   // used to focus on the text input if the user pressed on the box
   const inputFocus = useRef(null);
@@ -24,6 +26,35 @@ const ChooseTypeModal = ({
   const handleClose = () => {
     setModalVisible(false);
     setText("");
+  };
+
+  // dummy data
+  const data = [
+    { value: "Water" },
+    { value: "Tea" },
+    { value: "Coffee" },
+    { value: "SoftDrink" },
+    { value: "Beer" },
+    { value: "Cocktail" },
+    { value: "Wine" },
+  ];
+
+  const mappedData = () => {
+    return data.map((item, index) => (
+      <TouchableOpacity
+        key={index}
+        onPress={() => setUserOption(item.value)}
+        style={tw`flex-row justify-between w-full pt-6`}
+      >
+        <Text
+          style={tw`font-medium text-base ${
+            userOption === item.value ? "text-[#0099ff]" : "text-white"
+          }`}
+        >
+          {item.value}
+        </Text>
+      </TouchableOpacity>
+    ));
   };
 
   return (
@@ -34,30 +65,8 @@ const ChooseTypeModal = ({
       avoidKeyboard={true}
     >
       <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
-        <ScrollView>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Water</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Tea</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Coffee</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Soft Drink</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Beer</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Cocktail</Text>
-          </View>
-
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Wine</Text>
-          </View>
-        </ScrollView>
+        {/* display all the types of drinks for this user */}
+        <ScrollView>{mappedData()}</ScrollView>
         <View style={tw`justify-between mb-6 mt-12 pt-2`}>
           <Text style={tw`font-bold text-lg text-white`}>Create your own</Text>
           <TouchableOpacity

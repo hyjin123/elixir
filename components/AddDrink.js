@@ -12,9 +12,9 @@ const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
   // used to keep track of selected cup size
-  const [selectedCup, setSelectedCup] = useState("");
+  const [selectedCup, setSelectedCup] = useState("Normal Cup");
   // used to keep track of selected type of drink
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState("Water");
 
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
@@ -50,7 +50,7 @@ const AddDrink = () => {
                 color="white"
               />
               <Text style={tw`text-white text-lg ml-2 font-semibold`}>
-                Normal Cup
+                {selectedCup}
               </Text>
             </View>
             <View style={tw`justify-center`}>
@@ -64,7 +64,7 @@ const AddDrink = () => {
             <View style={tw`flex-row items-center`}>
               <Ionicons name="water-outline" size={24} color="white" />
               <Text style={tw`text-white text-lg ml-2 font-semibold`}>
-                Water
+                {selectedType}
               </Text>
             </View>
             <View style={tw`justify-center`}>

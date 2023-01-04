@@ -18,6 +18,7 @@ const ChooseCupModal = ({
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
+  const [userOption, setUserOption] = useState("");
 
   // used to focus on the text input if the user pressed on the box
   const nameFocus = useRef(null);
@@ -29,6 +30,41 @@ const ChooseCupModal = ({
     setNameText("");
   };
 
+  // dummy data
+  const data = [
+    { name: "Small Cup", value: "200" },
+    { name: "Medium Cup", value: "300" },
+    { name: "Large Cup", value: "400" },
+    { name: "Small Bottle", value: "500" },
+    { name: "Medium Bottle", value: "1000" },
+    { name: "Large Bottle", value: "1500" },
+  ];
+
+  const mappedData = () => {
+    return data.map((item, index) => (
+      <TouchableOpacity
+        key={index}
+        onPress={() => setUserOption(item.value)}
+        style={tw`flex-row justify-between w-full pt-6`}
+      >
+        <Text
+          style={tw`font-medium text-base ${
+            userOption === item.value ? "text-[#0099ff]" : "text-white"
+          }`}
+        >
+          {item.name}
+        </Text>
+        <Text
+          style={tw`font-medium text-base ${
+            userOption === item.value ? "text-[#0099ff]" : "text-white"
+          }`}
+        >
+          {item.value} ml
+        </Text>
+      </TouchableOpacity>
+    ));
+  };
+
   return (
     <Modal
       isVisible={modalVisible}
@@ -37,38 +73,8 @@ const ChooseCupModal = ({
       avoidKeyboard={true}
     >
       <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
-        <ScrollView>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Small Cup</Text>
-            <Text style={tw`font-medium text-base text-white`}>200 ml</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Medium Cup</Text>
-            <Text style={tw`font-medium text-base text-white`}>300 ml</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>Large Cup</Text>
-            <Text style={tw`font-medium text-base text-white`}>400 ml</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>
-              Small Bottle
-            </Text>
-            <Text style={tw`font-medium text-base text-white`}>500 ml</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>
-              Medium Bottle
-            </Text>
-            <Text style={tw`font-medium text-base text-white`}>1000 ml</Text>
-          </View>
-          <View style={tw`flex-row justify-between w-full pt-6`}>
-            <Text style={tw`font-medium text-base text-white`}>
-              Large Bottle
-            </Text>
-            <Text style={tw`font-medium text-base text-white`}>1500 ml</Text>
-          </View>
-        </ScrollView>
+        {/* all the cup size options */}
+        <ScrollView>{mappedData()}</ScrollView>
         <View style={tw`justify-between mb-6 mt-12 pt-2`}>
           <Text style={tw`font-bold text-lg text-white`}>Create your own</Text>
           <View
@@ -89,7 +95,7 @@ const ChooseCupModal = ({
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => amountFocus.current.focus()}
-              style={tw`flex-row flex-1 items-center h-full justify-end`}
+              style={tw`flex-row flex-2 items-center h-full justify-end`}
             >
               <TextInput
                 ref={amountFocus}
