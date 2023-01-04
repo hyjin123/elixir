@@ -18,7 +18,6 @@ const ChooseTypeModal = ({
   setSelectedType,
 }) => {
   const [text, setText] = useState("");
-  const [userOption, setUserOption] = useState("");
 
   // used to focus on the text input if the user pressed on the box
   const inputFocus = useRef(null);
@@ -26,6 +25,13 @@ const ChooseTypeModal = ({
   const handleClose = () => {
     setModalVisible(false);
     setText("");
+  };
+
+  const handleSelection = (selectedItem) => {
+    // change the home screen UI to the selected cup size
+    setSelectedType(selectedItem);
+    // close the modal once cup option is selected
+    setModalVisible(false);
   };
 
   // dummy data
@@ -43,12 +49,12 @@ const ChooseTypeModal = ({
     return data.map((item, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => setUserOption(item.value)}
+        onPress={() => handleSelection(item.value)}
         style={tw`flex-row justify-between w-full pt-6`}
       >
         <Text
           style={tw`font-medium text-base ${
-            userOption === item.value ? "text-[#0099ff]" : "text-white"
+            selectedType === item.value ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.value}

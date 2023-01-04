@@ -18,7 +18,6 @@ const ChooseCupModal = ({
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
-  const [userOption, setUserOption] = useState("");
 
   // used to focus on the text input if the user pressed on the box
   const nameFocus = useRef(null);
@@ -28,6 +27,13 @@ const ChooseCupModal = ({
     setModalVisible(false);
     setAmountText("");
     setNameText("");
+  };
+
+  const handleSelection = (selectedItem) => {
+    // change the home screen UI to the selected cup size
+    setSelectedCup(selectedItem);
+    // close the modal once cup option is selected
+    setModalVisible(false);
   };
 
   // dummy data
@@ -44,19 +50,19 @@ const ChooseCupModal = ({
     return data.map((item, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => setUserOption(item.value)}
+        onPress={() => handleSelection(item.name)}
         style={tw`flex-row justify-between w-full pt-6`}
       >
         <Text
           style={tw`font-medium text-base ${
-            userOption === item.value ? "text-[#0099ff]" : "text-white"
+            selectedCup === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.name}
         </Text>
         <Text
           style={tw`font-medium text-base ${
-            userOption === item.value ? "text-[#0099ff]" : "text-white"
+            selectedCup === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.value} ml

@@ -22,7 +22,7 @@ const AddDrink = () => {
       <ChooseCupModal
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}
-        selectedCup={setSelectedCup}
+        selectedCup={selectedCup}
         setSelectedCup={setSelectedCup}
       />
       {/* Modal - Choose Type of Drink*/}
