@@ -14,9 +14,13 @@ const PreviousDrinks = () => {
   const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
 
   const onPressIn = () => {
-    Animated.spring(spinValue, {
+    // this sets the spin value to 0 always before starting animation
+    spinValue.setValue(0);
+
+    Animated.timing(spinValue, {
       toValue: 1,
       useNativeDriver: true,
+      duration: 200,
     }).start();
 
     if (toggle) {
