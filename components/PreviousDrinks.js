@@ -3,7 +3,6 @@ import {
   Text,
   TouchableWithoutFeedback,
   Animated,
-  Easing,
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -11,7 +10,7 @@ import tw from "twrnc";
 import { ChevronDownIcon } from "react-native-heroicons/solid";
 
 const PreviousDrinks = () => {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(null);
   const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
 
   const onPressIn = () => {
@@ -20,8 +19,11 @@ const PreviousDrinks = () => {
       useNativeDriver: true,
     }).start();
 
-    // spinValue.setValue(0);
-    setToggle((current) => !current);
+    if (toggle) {
+      setToggle(false);
+    } else {
+      setToggle(true);
+    }
   };
 
   let spinDeg;
@@ -29,12 +31,12 @@ const PreviousDrinks = () => {
   if (toggle === false) {
     spinDeg = spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ["0deg", "180deg"],
+      outputRange: ["180deg", "0deg"],
     });
-  } else {
+  } else if (toggle) {
     spinDeg = spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ["180deg", "0deg"],
+      outputRange: ["0deg", "180deg"],
     });
   }
 
@@ -42,18 +44,43 @@ const PreviousDrinks = () => {
     transform: [{ rotate: spinDeg }],
   };
 
+  // dummy data for previous drinks
+  const data = [{ value: "Small Cup of Water" }];
+
+  const mappedData = () => {
+    if (toggle) {
+      return data.map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          style={tw`flex-row justify-between w-full pt-6`}
+        >
+          <Text style={tw`font-medium text-base text-white`}>{item.value}</Text>
+        </TouchableOpacity>
+      ));
+    }
+  };
+
   return (
-    <View style={tw`mt-10 flex-row justify-between items-start mx-5`}>
-      <View>
-        <Text style={tw`text-white font-bold text-lg`}>
-          Drinks you had today
-        </Text>
+    <View style={tw`mt-10 mx-5`}>
+      <View style={tw`flex-row justify-between`}>
+        <View>
+          <Text style={tw`text-white font-bold text-lg`}>
+            Drinks you had today
+          </Text>
+        </View>
+        <TouchableOpacity onPress={onPressIn}>
+          {toggle === null ? (
+            <View>
+              <ChevronDownIcon color="white" />
+            </View>
+          ) : (
+            <Animated.View style={animatedScaleStyle}>
+              <ChevronDownIcon color="white" />
+            </Animated.View>
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={onPressIn}>
-        <Animated.View style={animatedScaleStyle}>
-          <ChevronDownIcon color="white" />
-        </Animated.View>
-      </TouchableOpacity>
+      <View>{mappedData()}</View>
     </View>
   );
 };
