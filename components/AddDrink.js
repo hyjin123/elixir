@@ -11,14 +11,14 @@ import ChooseTypeModal from "./ChooseTypeModal";
 const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
-  // used to keep track of selected cup size
-  const [selectedCup, setSelectedCup] = useState("Normal Cup");
+  // used to keep track of selected size of drink
+  const [selectedCup, setSelectedCup] = useState("Medium Cup");
   // used to keep track of selected type of drink
   const [selectedType, setSelectedType] = useState("Water");
 
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
-      {/* Modal - Choose Cup*/}
+      {/* Modal - Choose Size of Drink*/}
       <ChooseCupModal
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}

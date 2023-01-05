@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  Pressable,
 } from "react-native";
 import React, { useState, useRef } from "react";
 import Modal from "react-native-modal";
@@ -39,7 +38,7 @@ const ChooseTypeModal = ({
     { value: "Water" },
     { value: "Tea" },
     { value: "Coffee" },
-    { value: "SoftDrink" },
+    { value: "Soft Drink" },
     { value: "Beer" },
     { value: "Cocktail" },
     { value: "Wine" },
