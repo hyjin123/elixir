@@ -9,9 +9,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
-import { collection, getDocs } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import { getCupSettings } from "../utils/getCupSettings";
+import { getSettings } from "../utils/getSettings";
 
 const ChooseCupModal = ({
   userId,
@@ -43,8 +41,7 @@ const ChooseCupModal = ({
   };
 
   useEffect(() => {
-    getCupSettings(userId).then((data) => {
-      console.log("this is the returned data", data);
+    getSettings(userId).then((data) => {
       // save the size settings and current size option for this user
       setSizeSetting(data.sizeSetting);
       setSizeOptions(data.sizeOptions);

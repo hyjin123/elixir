@@ -5,10 +5,11 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
+import { getSettings } from "../utils/getSettings";
 
 const ChooseTypeModal = ({
   userId,
@@ -18,6 +19,8 @@ const ChooseTypeModal = ({
   setSelectedType,
 }) => {
   const [text, setText] = useState("");
+  const [typeSetting, setTypeSetting] = useState();
+  const [typeOptions, setTypeOptions] = useState();
 
   // used to focus on the text input if the user pressed on the box
   const inputFocus = useRef(null);
@@ -34,19 +37,16 @@ const ChooseTypeModal = ({
     setModalVisible(false);
   };
 
-  // dummy data
-  const data = [
-    { value: "Water" },
-    { value: "Tea" },
-    { value: "Coffee" },
-    { value: "Soft Drink" },
-    { value: "Beer" },
-    { value: "Cocktail" },
-    { value: "Wine" },
-  ];
+  useEffect(() => {
+    getSettings(userId).then((data) => {
+      // save the size settings and current size option for this user
+      setTypeSetting(data.typeSetting);
+      setTypeOptions(data.typeOptions);
+    });
+  }, []);
 
   const mappedData = () => {
-    return data.map((item, index) => (
+    return typeOptions?.map((item, index) => (
       <TouchableOpacity
         key={index}
         onPress={() => handleSelection(item.value)}
