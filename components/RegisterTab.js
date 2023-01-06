@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/core";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
-const RegisterTab = ({ setLoggedInUserEmail }) => {
+const RegisterTab = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

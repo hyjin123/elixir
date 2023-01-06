@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import ChooseCupModal from "./ChooseCupModal";
 import ChooseTypeModal from "./ChooseTypeModal";
+import { auth, db } from "../firebase";
 
 const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
@@ -16,10 +17,13 @@ const AddDrink = () => {
   // used to keep track of selected type of drink
   const [selectedType, setSelectedType] = useState("Water");
 
+  const userId = auth.currentUser.uid;
+
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
       {/* Modal - Choose Size of Drink*/}
       <ChooseCupModal
+        userId={userId}
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}
         selectedCup={selectedCup}
@@ -27,6 +31,7 @@ const AddDrink = () => {
       />
       {/* Modal - Choose Type of Drink*/}
       <ChooseTypeModal
+        userId={userId}
         modalVisible={typeModalVisible}
         setModalVisible={setTypeModalVisible}
         selectedType={selectedType}

@@ -7,8 +7,6 @@ import LoginScreen from "./screens/LoginScreen";
 import { LogBox } from "react-native";
 
 export default function App() {
-  const [loggedInUserEmail, setLoggedInUserEmail] = useState();
-
   const Stack = createNativeStackNavigator();
 
   LogBox.ignoreAllLogs();
@@ -22,12 +20,7 @@ export default function App() {
       >
         <Stack.Navigator>
           <Stack.Screen name="LoginScreen" options={{ headerShown: false }}>
-            {(props) => (
-              <LoginScreen
-                {...props}
-                setLoggedInUserEmail={setLoggedInUserEmail}
-              />
-            )}
+            {(props) => <LoginScreen {...props} />}
           </Stack.Screen>
 
           <Stack.Screen

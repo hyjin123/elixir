@@ -5,12 +5,16 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
+import { collection, getDocs } from "firebase/firestore";
+import { auth, db } from "../firebase";
+import { getCupSettings } from "../utils/getCupSettings";
 
 const ChooseCupModal = ({
+  userId,
   modalVisible,
   setModalVisible,
   selectedCup,
@@ -18,6 +22,8 @@ const ChooseCupModal = ({
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
+  const [sizeSetting, setSizeSetting] = useState();
+  const [sizeOptions, setSizeOptions] = useState();
 
   // used to focus on the text input if the user pressed on the box
   const nameFocus = useRef(null);
@@ -36,18 +42,17 @@ const ChooseCupModal = ({
     setModalVisible(false);
   };
 
-  // dummy data
-  const data = [
-    { name: "Small Cup", value: "200" },
-    { name: "Medium Cup", value: "300" },
-    { name: "Large Cup", value: "400" },
-    { name: "Small Bottle", value: "500" },
-    { name: "Medium Bottle", value: "1000" },
-    { name: "Large Bottle", value: "1500" },
-  ];
+  useEffect(() => {
+    getCupSettings(userId).then((data) => {
+      console.log("this is the returned data", data);
+      // save the size settings and current size option for this user
+      setSizeSetting(data.sizeSetting);
+      setSizeOptions(data.sizeOptions);
+    });
+  }, []);
 
   const mappedData = () => {
-    return data.map((item, index) => (
+    return sizeOptions?.map((item, index) => (
       <TouchableOpacity
         key={index}
         onPress={() => handleSelection(item.name)}

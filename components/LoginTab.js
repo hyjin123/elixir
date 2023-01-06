@@ -11,7 +11,7 @@ import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigation } from "@react-navigation/core";
 
-const LoginTab = ({ setLoggedInUserEmail }) => {
+const LoginTab = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

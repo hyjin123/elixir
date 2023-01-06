@@ -11,6 +11,7 @@ import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 
 const ChooseTypeModal = ({
+  userId,
   modalVisible,
   setModalVisible,
   selectedType,
