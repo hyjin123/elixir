@@ -10,6 +10,8 @@ import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { getSettings } from "../utils/getSettings";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const ChooseCupModal = ({
   userId,
@@ -20,7 +22,6 @@ const ChooseCupModal = ({
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
-  const [sizeSetting, setSizeSetting] = useState();
   const [sizeOptions, setSizeOptions] = useState();
 
   // used to focus on the text input if the user pressed on the box
@@ -33,17 +34,25 @@ const ChooseCupModal = ({
     setNameText("");
   };
 
-  const handleSelection = (selectedItem) => {
+  const handleSelection = async (selectedItem) => {
     // change the home screen UI to the selected cup size
     setSelectedCup(selectedItem);
     // close the modal once cup option is selected
     setModalVisible(false);
+    // set the new cup size setting in the firestore database
+    await setDoc(
+      doc(db, "users", userId),
+      {
+        sizeSetting: selectedItem,
+      },
+      { merge: true }
+    );
   };
 
   useEffect(() => {
     getSettings(userId).then((data) => {
       // save the size settings and current size option for this user
-      setSizeSetting(data.sizeSetting);
+      setSelectedCup(data.sizeSetting);
       setSizeOptions(data.sizeOptions);
     });
   }, []);
