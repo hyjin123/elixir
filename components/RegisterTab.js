@@ -10,6 +10,7 @@ import tw from "twrnc";
 import { auth, db } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const RegisterTab = ({ setLoggedInUserEmail }) => {
   const [firstName, setFirstName] = useState("");
@@ -31,9 +32,38 @@ const RegisterTab = ({ setLoggedInUserEmail }) => {
 
   const handleSignUp = () => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
+        // set the display name and the picture of the user that registers into the firestore database
+        await setDoc(
+          doc(db, "users", user.uid),
+          {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            sizeSetting: "Normal Cup",
+            typeSetting: "Water",
+            sizeOptions: [
+              { name: "Small Cup", value: "200" },
+              { name: "Medium Cup", value: "300" },
+              { name: "Large Cup", value: "400" },
+              { name: "Small Bottle", value: "500" },
+              { name: "Medium Bottle", value: "1000" },
+              { name: "Large Bottle", value: "1500" },
+            ],
+            typeOptions: [
+              { value: "Water" },
+              { value: "Tea" },
+              { value: "Coffee" },
+              { value: "Soft Drink" },
+              { value: "Beer" },
+              { value: "Cocktail" },
+              { value: "Wine" },
+            ],
+          },
+          { merge: true }
+        );
       })
       .catch((error) => {
         const errorMessage = error.message;

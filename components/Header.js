@@ -25,6 +25,9 @@ const Header = () => {
       {/* <TouchableOpacity onPress={handleSignOut} style={tw`bg-[#303133] p-5`}>
         <Text style={tw`text-white font-semibold`}>Sign Out</Text>
       </TouchableOpacity> */}
+      <TouchableOpacity onPress={handleSignOut}>
+        <Text style={tw`text-white`}>Signout</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={tw`p-8 absolute right-0 top-0`}>
         <Cog6ToothIcon color="white" />
       </TouchableOpacity>
