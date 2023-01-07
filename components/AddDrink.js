@@ -7,11 +7,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import ChooseSizeModal from "./ChooseSizeModal";
 import ChooseTypeModal from "./ChooseTypeModal";
-import { auth, db } from "../firebase";
+import { auth } from "../firebase";
 
 const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
+
   // used to keep track of selected size of drink
   const [selectedSize, setSelectedSize] = useState("Medium Cup");
   // used to keep track of selected type of drink
