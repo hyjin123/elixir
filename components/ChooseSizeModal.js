@@ -10,19 +10,21 @@ import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { getSettings } from "../utils/getSettings";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 
-const ChooseCupModal = ({
+const ChooseSizeModal = ({
   userId,
   modalVisible,
   setModalVisible,
-  selectedCup,
-  setSelectedCup,
+  selectedSize,
+  setSelectedSize,
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
   const [sizeOptions, setSizeOptions] = useState();
+  // this state is used to run the "useEffect", whenever number of cup sizes options is changed (Ex. when a new size is added)
+  const [numberOfAddedOptions, setNumberOfAddedOptions] = useState(0);
 
   // used to focus on the text input if the user pressed on the box
   const nameFocus = useRef(null);
@@ -37,7 +39,7 @@ const ChooseCupModal = ({
   // when a user selects a new cup size option
   const handleSelection = async (selectedItem) => {
     // change the home screen UI to the selected cup size
-    setSelectedCup(selectedItem);
+    setSelectedSize(selectedItem);
     // close the modal once cup option is selected
     setModalVisible(false);
     // set the new cup size setting in the firestore database
@@ -50,13 +52,39 @@ const ChooseCupModal = ({
     );
   };
 
+  // when a user enters a custom size of drink
+  const handleCustomCreation = async () => {
+    // add new size of drink in the existing array in firestore
+    await updateDoc(doc(db, "users", userId), {
+      sizeOptions: arrayUnion({ name: nameText, value: amountText }),
+    });
+
+    // update the chosen size setting to this particular custom size (UI and the database)
+    setSelectedSize(nameText);
+    await setDoc(
+      doc(db, "users", userId),
+      {
+        sizeSetting: nameText,
+      },
+      { merge: true }
+    );
+
+    // close the modal after adding to database is successful
+    setModalVisible(false);
+    setAmountText("");
+    setNameText("");
+
+    // add to the count of options so useEffect can be run again
+    setNumberOfAddedOptions((current) => current + 1);
+  };
+
   useEffect(() => {
     getSettings(userId).then((data) => {
       // save the size settings and current size option for this user
-      setSelectedCup(data.sizeSetting);
+      setSelectedSize(data.sizeSetting);
       setSizeOptions(data.sizeOptions);
     });
-  }, []);
+  }, [numberOfAddedOptions]);
 
   const mappedData = () => {
     return sizeOptions?.map((item, index) => (
@@ -67,14 +95,14 @@ const ChooseCupModal = ({
       >
         <Text
           style={tw`font-medium text-base ${
-            selectedCup === item.name ? "text-[#0099ff]" : "text-white"
+            selectedSize === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.name}
         </Text>
         <Text
           style={tw`font-medium text-base ${
-            selectedCup === item.name ? "text-[#0099ff]" : "text-white"
+            selectedSize === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.value} ml
@@ -124,7 +152,7 @@ const ChooseCupModal = ({
                 color="white"
               />
               <Text style={tw`text-white mr-4`}> ml</Text>
-              <TouchableOpacity style={tw`p-3`}>
+              <TouchableOpacity onPress={handleCustomCreation} style={tw`p-3`}>
                 <Ionicons name="add-circle" size={24} color="white" />
               </TouchableOpacity>
             </TouchableOpacity>
@@ -135,4 +163,4 @@ const ChooseCupModal = ({
   );
 };
 
-export default ChooseCupModal;
+export default ChooseSizeModal;

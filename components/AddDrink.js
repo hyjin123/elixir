@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "react-native-heroicons/solid";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import ChooseCupModal from "./ChooseCupModal";
+import ChooseSizeModal from "./ChooseSizeModal";
 import ChooseTypeModal from "./ChooseTypeModal";
 import { auth, db } from "../firebase";
 
@@ -13,7 +13,7 @@ const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
   // used to keep track of selected size of drink
-  const [selectedCup, setSelectedCup] = useState("Medium Cup");
+  const [selectedSize, setSelectedSize] = useState("Medium Cup");
   // used to keep track of selected type of drink
   const [selectedType, setSelectedType] = useState("Water");
 
@@ -22,12 +22,12 @@ const AddDrink = () => {
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
       {/* Modal - Choose Size of Drink*/}
-      <ChooseCupModal
+      <ChooseSizeModal
         userId={userId}
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}
-        selectedCup={selectedCup}
-        setSelectedCup={setSelectedCup}
+        selectedSize={selectedSize}
+        setSelectedSize={setSelectedSize}
       />
       {/* Modal - Choose Type of Drink*/}
       <ChooseTypeModal
@@ -55,7 +55,7 @@ const AddDrink = () => {
                 color="white"
               />
               <Text style={tw`text-white text-lg ml-2 font-semibold`}>
-                {selectedCup}
+                {selectedSize}
               </Text>
             </View>
             <View style={tw`justify-center`}>
