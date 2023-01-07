@@ -10,14 +10,30 @@ import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
-import { auth } from "../firebase";
+import { getSettings } from "../utils/getSettings";
 
 const SettingsModal = ({ modalVisible, setModalVisible }) => {
-  const [text, setText] = useState("");
+  const [targetAmount, setTargetAmount] = useState(0);
 
+  // navigation
   const navigation = useNavigation();
+
+  // used to focus on the text input if the user pressed on the box
+  const inputFocus = useRef(null);
+
+  // get user ID
+  const userId = auth.currentUser.uid;
+
+  useEffect(() => {
+    getSettings(userId).then((data) => {
+      // save the initial/current size settings size options (from the database) for this user
+      setTargetAmount(data.targetAmount);
+    });
+  }, []);
+
+  console.log(targetAmount);
 
   const handleSignOut = () => {
     auth
@@ -28,12 +44,9 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
       .catch((error) => alert(error.message));
   };
 
-  // used to focus on the text input if the user pressed on the box
-  const inputFocus = useRef(null);
-
   const handleClose = () => {
     setModalVisible(false);
-    setText("");
+    setTargetAmount("");
   };
 
   return (
@@ -58,8 +71,8 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
             <View style={tw`p-3`}>
               <TextInput
                 ref={inputFocus}
-                onChangeText={(newText) => setText(newText)}
-                value={text}
+                onChangeText={(newText) => setTargetAmount(newText)}
+                value={targetAmount}
                 color="white"
               />
             </View>
@@ -78,6 +91,7 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
             <Text style={tw`text-white`}>Save</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            onPress={handleSignOut}
             style={tw`rounded-xl py-3 px-4 bg-[#eb4034] w-22 items-center`}
           >
             <Text style={tw`text-white`}>Sign Out</Text>

@@ -46,12 +46,12 @@ const RegisterTab = () => {
             typeSetting: "Water",
             targetAmount: 2000,
             sizeOptions: [
-              { name: "Small Cup", value: "200" },
-              { name: "Medium Cup", value: "300" },
-              { name: "Large Cup", value: "400" },
-              { name: "Small Bottle", value: "500" },
-              { name: "Medium Bottle", value: "1000" },
-              { name: "Large Bottle", value: "1500" },
+              { name: "Small Cup", value: 200 },
+              { name: "Medium Cup", value: 300 },
+              { name: "Large Cup", value: 400 },
+              { name: "Small Bottle", value: 500 },
+              { name: "Medium Bottle", value: 1000 },
+              { name: "Large Bottle", value: 1500 },
             ],
             typeOptions: [
               { value: "Water" },
