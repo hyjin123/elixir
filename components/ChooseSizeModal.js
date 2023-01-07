@@ -54,9 +54,12 @@ const ChooseSizeModal = ({
 
   // when a user enters a custom size of drink
   const handleCustomCreation = async () => {
+    // convert amount to integer before updating database
     // add new size of drink in the existing array in firestore
+    const amount = parseInt(amountText, 10);
+
     await updateDoc(doc(db, "users", userId), {
-      sizeOptions: arrayUnion({ name: nameText, value: amountText }),
+      sizeOptions: arrayUnion({ name: nameText, value: amount }),
     });
 
     // update the chosen size setting to this particular custom size (UI and the database)
@@ -150,6 +153,8 @@ const ChooseSizeModal = ({
                 placeholder="300"
                 placeholderTextColor="gray"
                 color="white"
+                // this allows the user to only have access to numbers and not characters
+                keyboardType="number-pad"
               />
               <Text style={tw`text-white mr-4`}> ml</Text>
               <TouchableOpacity onPress={handleCustomCreation} style={tw`p-3`}>

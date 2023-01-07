@@ -1,21 +1,16 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
-} from "react-native";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
-import { Ionicons } from "@expo/vector-icons";
-import { doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { getSettings } from "../utils/getSettings";
 
 const SettingsModal = ({ modalVisible, setModalVisible }) => {
-  const [targetAmount, setTargetAmount] = useState(0);
+  const [text, setText] = useState("");
+  // this is used to persist the original target amount (ex, if user changes target amount field but does not save)
+  const [targetAmount, setTargetAmount] = useState("");
 
   // navigation
   const navigation = useNavigation();
@@ -28,12 +23,13 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
 
   useEffect(() => {
     getSettings(userId).then((data) => {
-      // save the initial/current size settings size options (from the database) for this user
-      setTargetAmount(data.targetAmount);
+      // convert from number to string (as TextInput only accepts string)
+      const targetAmountText = data.targetAmount.toString();
+      // save the target amount
+      setTargetAmount(targetAmountText);
+      setText(targetAmountText);
     });
   }, []);
-
-  console.log(targetAmount);
 
   const handleSignOut = () => {
     auth
@@ -46,7 +42,26 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
 
   const handleClose = () => {
     setModalVisible(false);
-    setTargetAmount("");
+    // if a user closes the modal without saving, the text input field reverts back to original target amount
+    setText(targetAmount);
+  };
+
+  // handle when a user submits new daily target amount
+  const handleTargetChange = async () => {
+    // change the target amount text to integer
+    const amount = parseInt(text, 10);
+
+    // update the target amount in the database
+    await setDoc(
+      doc(db, "users", userId),
+      {
+        targetAmount: amount,
+      },
+      { merge: true }
+    );
+
+    // close the modal after adding to database is successful
+    setModalVisible(false);
   };
 
   return (
@@ -71,9 +86,11 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
             <View style={tw`p-3`}>
               <TextInput
                 ref={inputFocus}
-                onChangeText={(newText) => setTargetAmount(newText)}
-                value={targetAmount}
+                onChangeText={(newText) => setText(newText)}
+                value={text}
                 color="white"
+                // this allows the user to only have access to numbers and not characters
+                keyboardType="number-pad"
               />
             </View>
           </TouchableOpacity>
@@ -86,6 +103,7 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
         {/* Buttons */}
         <View style={tw`flex-row justify-evenly items-center my-6`}>
           <TouchableOpacity
+            onPress={handleTargetChange}
             style={tw`rounded-xl py-3 px-4 bg-[#0099ff] w-18 items-center`}
           >
             <Text style={tw`text-white`}>Save</Text>
