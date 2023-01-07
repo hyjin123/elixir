@@ -10,7 +10,7 @@ import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
 import { getSettings } from "../utils/getSettings";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
 
 const ChooseTypeModal = ({
@@ -22,6 +22,8 @@ const ChooseTypeModal = ({
 }) => {
   const [text, setText] = useState("");
   const [typeOptions, setTypeOptions] = useState();
+  // this state is used to run the "useEffect", whenever number of types is changed (Ex. when a new type is added)
+  const [numberOfAddedOptions, setNumberOfAddedOptions] = useState(0);
 
   // used to focus on the text input if the user pressed on the box
   const inputFocus = useRef(null);
@@ -31,6 +33,7 @@ const ChooseTypeModal = ({
     setText("");
   };
 
+  // / when a user selects a new option
   const handleSelection = async (selectedItem) => {
     // change the home screen UI to the selected cup size
     setSelectedType(selectedItem);
@@ -46,13 +49,38 @@ const ChooseTypeModal = ({
     );
   };
 
+  // when a user enters a custom type of drink
+  const handleCustomCreation = async () => {
+    // add new type of drink in the existing array in firestore
+    await updateDoc(doc(db, "users", userId), {
+      typeOptions: arrayUnion({ value: text }),
+    });
+
+    // update the chosen type setting to this particular custom type (UI and the database)
+    setSelectedType(text);
+    await setDoc(
+      doc(db, "users", userId),
+      {
+        typeSetting: text,
+      },
+      { merge: true }
+    );
+
+    // close the modal after adding to database is successful
+    setModalVisible(false);
+    setText("");
+
+    // add to the count of options so useEffect can be run again
+    setNumberOfAddedOptions((current) => current + 1);
+  };
+
   useEffect(() => {
     getSettings(userId).then((data) => {
-      // save the size settings and current size option for this user
+      // save the initial/current size settings size options (from the database) for this user
       setSelectedType(data.typeSetting);
       setTypeOptions(data.typeOptions);
     });
-  }, []);
+  }, [numberOfAddedOptions]);
 
   const mappedData = () => {
     return typeOptions?.map((item, index) => (
@@ -98,7 +126,10 @@ const ChooseTypeModal = ({
                 color="white"
               />
             </View>
-            <TouchableOpacity style={tw`flex-row p-3`}>
+            <TouchableOpacity
+              onPress={handleCustomCreation}
+              style={tw`flex-row p-3`}
+            >
               <Ionicons name="add-circle" size={24} color="white" />
             </TouchableOpacity>
           </TouchableOpacity>

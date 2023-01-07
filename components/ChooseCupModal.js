@@ -34,6 +34,7 @@ const ChooseCupModal = ({
     setNameText("");
   };
 
+  // when a user selects a new cup size option
   const handleSelection = async (selectedItem) => {
     // change the home screen UI to the selected cup size
     setSelectedCup(selectedItem);
