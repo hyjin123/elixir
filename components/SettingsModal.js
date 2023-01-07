@@ -6,11 +6,14 @@ import { doc, setDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useNavigation } from "@react-navigation/core";
 import { getSettings } from "../utils/getSettings";
+import { XMarkIcon } from "react-native-heroicons/solid";
 
 const SettingsModal = ({ modalVisible, setModalVisible }) => {
   const [text, setText] = useState("");
   // this is used to persist the original target amount (ex, if user changes target amount field but does not save)
   const [targetAmount, setTargetAmount] = useState("");
+  // used to re-run the useEffect when target amount changes
+  const [targetChange, setTargetChange] = useState(0);
 
   // navigation
   const navigation = useNavigation();
@@ -29,7 +32,7 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
       setTargetAmount(targetAmountText);
       setText(targetAmountText);
     });
-  }, []);
+  }, [targetChange]);
 
   const handleSignOut = () => {
     auth
@@ -62,6 +65,9 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
 
     // close the modal after adding to database is successful
     setModalVisible(false);
+
+    // used to re-run useEffect
+    setTargetChange((current) => current + 1);
   };
 
   return (
@@ -72,6 +78,13 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
       avoidKeyboard={true}
     >
       <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
+        <TouchableOpacity
+          onPress={handleClose}
+          style={tw`absolute -top-8 right-2`}
+        >
+          <XMarkIcon color="#D3D3D3" size={23} />
+        </TouchableOpacity>
+
         <View style={tw`mt-6`}>
           <Text style={tw`text-white text-3xl font-bold`}>Settings</Text>
         </View>

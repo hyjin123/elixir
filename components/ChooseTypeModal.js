@@ -9,6 +9,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
 import { Ionicons } from "@expo/vector-icons";
+import { XMarkIcon, ChevronDoubleDownIcon } from "react-native-heroicons/solid";
 import { getSettings } from "../utils/getSettings";
 import { doc, setDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../firebase";
@@ -27,6 +28,14 @@ const ChooseTypeModal = ({
 
   // used to focus on the text input if the user pressed on the box
   const inputFocus = useRef(null);
+  const scrollFlash = useRef(null);
+
+  // when a user clicks on the down scroll icon
+  const handleDownScroll = () => {
+    scrollFlash.current.scrollToEnd();
+    // flash the scroll bar to let user know you can scroll up and down
+    scrollFlash.current.flashScrollIndicators();
+  };
 
   const handleClose = () => {
     setModalVisible(false);
@@ -107,10 +116,25 @@ const ChooseTypeModal = ({
       backdropColor="#383838"
       avoidKeyboard={true}
     >
-      <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
+      <View style={tw`bg-black my-40 py-3 rounded-xl h-65%`}>
         {/* display all the types of drinks for this user */}
-        <ScrollView>{mappedData()}</ScrollView>
-        <View style={tw`justify-between mb-6 mt-12 pt-2`}>
+        <TouchableOpacity
+          onPress={handleClose}
+          style={tw`absolute -top-8 right-2`}
+        >
+          <XMarkIcon color="#D3D3D3" size={23} />
+        </TouchableOpacity>
+        <ScrollView ref={scrollFlash} style={tw`px-4 mx-2 flex-1`}>
+          {mappedData()}
+        </ScrollView>
+        {typeOptions?.length > 7 ? (
+          <TouchableOpacity onPress={handleDownScroll} style={tw`items-center`}>
+            <ChevronDoubleDownIcon size={20} color="gray" />
+          </TouchableOpacity>
+        ) : (
+          <></>
+        )}
+        <View style={tw`justify-between mb-6 mt-3 pt-2 px-6`}>
           <Text style={tw`font-bold text-lg text-white`}>Create your own</Text>
           <TouchableOpacity
             onPress={() => inputFocus.current.focus()}
