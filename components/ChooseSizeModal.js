@@ -18,8 +18,10 @@ const ChooseSizeModal = ({
   userId,
   modalVisible,
   setModalVisible,
-  selectedSize,
-  setSelectedSize,
+  selectedSizeName,
+  setSelectedSizeName,
+  selectedSizeAmount,
+  setSelectedSizeAmount,
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
@@ -46,9 +48,10 @@ const ChooseSizeModal = ({
   };
 
   // when a user selects a new cup size option
-  const handleSelection = async (selectedItem) => {
+  const handleSelection = async (selectedItem, selectedItemAmount) => {
     // change the home screen UI to the selected cup size
-    setSelectedSize(selectedItem);
+    setSelectedSizeName(selectedItem);
+    setSelectedSizeAmount(selectedItemAmount);
     // close the modal once cup option is selected
     setModalVisible(false);
     // set the new cup size setting in the firestore database
@@ -56,6 +59,7 @@ const ChooseSizeModal = ({
       doc(db, "users", userId),
       {
         sizeSetting: selectedItem,
+        sizeSettingAmount: selectedItemAmount,
       },
       { merge: true }
     );
@@ -72,11 +76,12 @@ const ChooseSizeModal = ({
     });
 
     // update the chosen size setting to this particular custom size (UI and the database)
-    setSelectedSize(nameText);
+    setSelectedSizeName(nameText);
     await setDoc(
       doc(db, "users", userId),
       {
         sizeSetting: nameText,
+        sizeSettingAmount: amount,
       },
       { merge: true }
     );
@@ -93,7 +98,8 @@ const ChooseSizeModal = ({
   useEffect(() => {
     getSettings(userId).then((data) => {
       // save the size settings and current size option for this user
-      setSelectedSize(data.sizeSetting);
+      setSelectedSizeName(data.sizeSetting);
+      setSelectedSizeAmount(data.sizeSettingAmount);
       setSizeOptions(data.sizeOptions);
     });
   }, [numberOfAddedOptions]);
@@ -102,19 +108,19 @@ const ChooseSizeModal = ({
     return sizeOptions?.map((item, index) => (
       <TouchableOpacity
         key={index}
-        onPress={() => handleSelection(item.name)}
+        onPress={() => handleSelection(item.name, item.value)}
         style={tw`flex-row justify-between w-full pt-6`}
       >
         <Text
           style={tw`font-medium text-base ${
-            selectedSize === item.name ? "text-[#0099ff]" : "text-white"
+            selectedSizeName === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.name}
         </Text>
         <Text
           style={tw`font-medium text-base ${
-            selectedSize === item.name ? "text-[#0099ff]" : "text-white"
+            selectedSizeName === item.name ? "text-[#0099ff]" : "text-white"
           }`}
         >
           {item.value} ml

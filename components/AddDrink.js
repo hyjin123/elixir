@@ -14,12 +14,14 @@ const AddDrink = () => {
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
   // used to keep track of selected size of drink
-  const [selectedSize, setSelectedSize] = useState("Medium Cup");
+  const [selectedSizeName, setSelectedSizeName] = useState("Medium Cup");
+  const [selectedSizeAmount, setSelectedSizeAmount] = useState(300);
   // used to keep track of selected type of drink
   const [selectedType, setSelectedType] = useState("Water");
 
   const userId = auth.currentUser.uid;
 
+  console.log(selectedSizeAmount);
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
       {/* Modal - Choose Size of Drink*/}
@@ -27,8 +29,10 @@ const AddDrink = () => {
         userId={userId}
         modalVisible={cupModalVisible}
         setModalVisible={setCupModalVisible}
-        selectedSize={selectedSize}
-        setSelectedSize={setSelectedSize}
+        selectedSizeName={selectedSizeName}
+        setSelectedSizeName={setSelectedSizeName}
+        selectedSizeAmount={selectedSizeAmount}
+        setSelectedSizeAmount={setSelectedSizeAmount}
       />
       {/* Modal - Choose Type of Drink*/}
       <ChooseTypeModal
@@ -56,7 +60,7 @@ const AddDrink = () => {
                 color="white"
               />
               <Text style={tw`text-white text-lg ml-2 font-semibold`}>
-                {selectedSize}
+                {selectedSizeName}
               </Text>
             </View>
             <View style={tw`justify-center`}>

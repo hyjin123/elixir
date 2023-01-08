@@ -43,6 +43,7 @@ const RegisterTab = () => {
             lastName: lastName,
             email: email,
             sizeSetting: "Medium Cup",
+            sizeSettingAmount: 300,
             typeSetting: "Water",
             targetAmount: 2000,
             sizeOptions: [
