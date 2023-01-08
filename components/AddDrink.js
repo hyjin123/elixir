@@ -7,7 +7,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import ChooseSizeModal from "./ChooseSizeModal";
 import ChooseTypeModal from "./ChooseTypeModal";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import {
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  addDoc,
+  getDoc,
+} from "firebase/firestore";
 
 const AddDrink = () => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
@@ -21,7 +29,45 @@ const AddDrink = () => {
 
   const userId = auth.currentUser.uid;
 
-  console.log(selectedSizeAmount);
+  const handleAdd = async () => {
+    // get today's date, in yyyy-mm-dd format
+    let today = new Date().toISOString().slice(0, 10);
+
+    // check if there is dates collection for today's date yet
+    const todayData = await getDoc(doc(db, "users", userId, "dates", today));
+
+    const docRef = doc(db, "users", userId, "dates", today);
+
+    // if there is already data for today, add to the drinks array
+    if (todayData.data()) {
+      await updateDoc(doc(db, "users", userId, "dates", today), {
+        drinks: arrayUnion({
+          type: selectedType,
+          name: selectedSizeName,
+          value: selectedSizeAmount,
+          timestamp: new Date(),
+        }),
+      });
+    } else {
+      // if there is no data for today yet, create a new date in the dates collection
+      await setDoc(
+        docRef,
+        {
+          date: new Date(),
+          drinks: [
+            {
+              type: selectedType,
+              name: selectedSizeName,
+              value: selectedSizeAmount,
+              timestamp: new Date(),
+            },
+          ],
+        },
+        { merge: true }
+      );
+    }
+  };
+
   return (
     <View style={tw`mt-15 justify-center items-start mx-5`}>
       {/* Modal - Choose Size of Drink*/}
@@ -83,6 +129,7 @@ const AddDrink = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity
+          onPress={handleAdd}
           style={tw`bg-[#0099ff] ml-3 justify-center px-4 py-3 rounded-xl`}
         >
           <Entypo name="plus" size={30} color="white" />
