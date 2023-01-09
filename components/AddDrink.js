@@ -10,7 +10,7 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId }) => {
+const AddDrink = ({ userId, setDrinkAdded }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -57,6 +57,9 @@ const AddDrink = ({ userId }) => {
         { merge: true }
       );
     }
+
+    // used to render previous drink component when a new drink is added
+    setDrinkAdded((current) => current + 1);
   };
 
   return (

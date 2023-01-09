@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import {
   ChevronRightIcon,
@@ -13,8 +13,27 @@ import {
 } from "react-native-heroicons/solid";
 import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
+import { getSettings } from "../utils/getSettings";
 
-const ProgressBar = () => {
+const ProgressBar = ({ userId, drinkList }) => {
+  const [target, setTarget] = useState(0);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    getSettings(userId).then((data) => {
+      // save the initial/current size settings size options (from the database) for this user
+      setTarget(data.targetAmount);
+    });
+
+    let totalAmount = 0;
+    for (const item of drinkList) {
+      totalAmount += item.value;
+    }
+
+    // set the total
+    setTotal(totalAmount);
+  }, [drinkList]);
+
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1`}>
       <TouchableOpacity style={tw`ml-5`}>
@@ -22,8 +41,13 @@ const ProgressBar = () => {
       </TouchableOpacity>
       <ProgressContainer>
         <Progress>
-          <Text style={tw`text-white text-5xl z-10`}>60%</Text>
-          <Text style={tw`text-white text-base z-10`}>0.9 of 1.5l</Text>
+          <Text style={tw`text-white text-5xl z-10`}>
+            {/* Show the percentage of your drink total out of your daily target */}
+            {Math.round((total / target) * 100)} %
+          </Text>
+          <Text style={tw`text-white text-base z-10`}>
+            {total / 1000} of {target / 1000} L
+          </Text>
           <Svg
             height="25%"
             width="100%"

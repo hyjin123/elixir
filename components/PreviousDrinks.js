@@ -6,16 +6,26 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import tw from "twrnc";
-import { ChevronDownIcon } from "react-native-heroicons/solid";
-import { getDateData } from "../utils/getDateData";
+import {
+  ChevronDownIcon,
+  ChevronDoubleDownIcon,
+} from "react-native-heroicons/solid";
 import TimeAgo from "react-native-timeago";
 
-const PreviousDrinks = ({ userId }) => {
+const PreviousDrinks = ({ drinkList }) => {
   const [toggle, setToggle] = useState(null);
   const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
-  const [drinkList, setDrinkList] = useState([]);
+
+  const scrollFlash = useRef(null);
+
+  // when a user clicks on the down scroll icon
+  const handleDownScroll = () => {
+    scrollFlash.current.scrollToEnd();
+    // flash the scroll bar to let user know you can scroll up and down
+    scrollFlash.current.flashScrollIndicators();
+  };
 
   // toggle animation
   const onPressIn = () => {
@@ -53,18 +63,6 @@ const PreviousDrinks = ({ userId }) => {
     transform: [{ rotate: spinDeg }],
   };
 
-  useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
-
-    getDateData(userId, today).then((data) => {
-      console.log("this is data", data);
-      setDrinkList(data.drinks);
-    });
-  }, []);
-
-  // dummy data for previous drinks
-  const data = [{ value: "Small Cup of Water" }];
-
   const mappedData = () => {
     if (toggle) {
       return drinkList?.map((item, index) => (
@@ -72,7 +70,7 @@ const PreviousDrinks = ({ userId }) => {
           <Text style={tw`font-medium text-base text-white`}>
             {item.name} of {item.type}
           </Text>
-          <Text style={tw`text-[#696868] text-xm`}>
+          <Text style={tw`text-[#696868] text-xs`}>
             <TimeAgo time={item.timestamp.toDate()} />
           </Text>
         </TouchableOpacity>
@@ -81,7 +79,7 @@ const PreviousDrinks = ({ userId }) => {
   };
 
   return (
-    <SafeAreaView style={tw`h-22% mt-8 mx-5`}>
+    <SafeAreaView style={tw`h-24% mt-8 mx-5`}>
       <View style={tw`flex-row justify-between`}>
         <View>
           <Text style={tw`text-white font-bold text-lg`}>
@@ -100,7 +98,16 @@ const PreviousDrinks = ({ userId }) => {
           )}
         </TouchableOpacity>
       </View>
-      <ScrollView>{mappedData()}</ScrollView>
+      <ScrollView ref={scrollFlash} indicatorStyle="white">
+        {mappedData()}
+      </ScrollView>
+      {drinkList?.length > 3 && toggle ? (
+        <TouchableOpacity onPress={handleDownScroll} style={tw`items-center`}>
+          <ChevronDoubleDownIcon size={20} color="gray" />
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </SafeAreaView>
   );
 };
