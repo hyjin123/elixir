@@ -16,7 +16,7 @@ import Svg, { Path, Rect } from "react-native-svg";
 
 const ProgressBar = () => {
   return (
-    <View style={tw`flex-row justify-between items-center h-30% mt-5`}>
+    <View style={tw`flex-row justify-between items-center h-30% mt-1`}>
       <TouchableOpacity style={tw`ml-5`}>
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>

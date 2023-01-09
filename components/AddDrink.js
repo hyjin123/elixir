@@ -7,17 +7,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import ChooseSizeModal from "./ChooseSizeModal";
 import ChooseTypeModal from "./ChooseTypeModal";
-import { auth, db } from "../firebase";
-import {
-  doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  addDoc,
-  getDoc,
-} from "firebase/firestore";
+import { db } from "../firebase";
+import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = () => {
+const AddDrink = ({ userId }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -26,8 +19,6 @@ const AddDrink = () => {
   const [selectedSizeAmount, setSelectedSizeAmount] = useState(300);
   // used to keep track of selected type of drink
   const [selectedType, setSelectedType] = useState("Water");
-
-  const userId = auth.currentUser.uid;
 
   const handleAdd = async () => {
     // get today's date, in yyyy-mm-dd format
@@ -38,7 +29,7 @@ const AddDrink = () => {
 
     const docRef = doc(db, "users", userId, "dates", today);
 
-    // if there is already data for today, add to the drinks array
+    // if there is already data for today, add to the existing drinks array
     if (todayData.data()) {
       await updateDoc(doc(db, "users", userId, "dates", today), {
         drinks: arrayUnion({
@@ -49,7 +40,7 @@ const AddDrink = () => {
         }),
       });
     } else {
-      // if there is no data for today yet, create a new date in the dates collection
+      // if there is no data for today yet, create a new date in the dates collection and add the drink
       await setDoc(
         docRef,
         {

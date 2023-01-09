@@ -1,18 +1,22 @@
 import {
   View,
   Text,
-  TouchableWithoutFeedback,
+  ScrollView,
   Animated,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { ChevronDownIcon } from "react-native-heroicons/solid";
+import { getDateData } from "../utils/getDateData";
 
-const PreviousDrinks = () => {
+const PreviousDrinks = ({ userId }) => {
   const [toggle, setToggle] = useState(null);
   const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
+  const [drinkList, setDrinkList] = useState([]);
 
+  // toggle animation
   const onPressIn = () => {
     // this sets the spin value to 0 always before starting animation
     spinValue.setValue(0);
@@ -48,24 +52,35 @@ const PreviousDrinks = () => {
     transform: [{ rotate: spinDeg }],
   };
 
+  useEffect(() => {
+    const today = new Date().toISOString().slice(0, 10);
+
+    getDateData(userId, today).then((data) => {
+      console.log("this is data", data);
+      setDrinkList(data.drinks);
+    });
+  }, []);
+
   // dummy data for previous drinks
   const data = [{ value: "Small Cup of Water" }];
 
   const mappedData = () => {
     if (toggle) {
-      return data.map((item, index) => (
+      return drinkList?.map((item, index) => (
         <TouchableOpacity
           key={index}
           style={tw`flex-row justify-between w-full pt-6`}
         >
-          <Text style={tw`font-medium text-base text-white`}>{item.value}</Text>
+          <Text style={tw`font-medium text-base text-white`}>
+            {item.name} of {item.type}
+          </Text>
         </TouchableOpacity>
       ));
     }
   };
 
   return (
-    <View style={tw`mt-10 mx-5`}>
+    <SafeAreaView style={tw`h-22% mt-8 mx-5`}>
       <View style={tw`flex-row justify-between`}>
         <View>
           <Text style={tw`text-white font-bold text-lg`}>
@@ -84,8 +99,8 @@ const PreviousDrinks = () => {
           )}
         </TouchableOpacity>
       </View>
-      <View>{mappedData()}</View>
-    </View>
+      <ScrollView>{mappedData()}</ScrollView>
+    </SafeAreaView>
   );
 };
 
