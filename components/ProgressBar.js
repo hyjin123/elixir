@@ -19,6 +19,11 @@ const ProgressBar = ({ userId, drinkList }) => {
   const [target, setTarget] = useState(0);
   const [total, setTotal] = useState(0);
 
+  // used to set the positioning of the SVGs so that the water is at a correct height
+  const percentageString = Math.round((total / target) * 100).toString() + "%";
+  const percentageString2 =
+    (Math.round((total / target) * 100) - 1).toString() + "%";
+
   useEffect(() => {
     getSettings(userId).then((data) => {
       // save the initial/current size settings size options (from the database) for this user
@@ -54,7 +59,7 @@ const ProgressBar = ({ userId, drinkList }) => {
             viewBox="0 0 1440 320"
             preserveAspectRatio="none"
             // the absolute position of the wavey svg is 1% lower than the rect svg so that it overlaps
-            style={{ position: "absolute", bottom: "39%" }}
+            style={{ position: "absolute", bottom: `${percentageString2}` }}
           >
             <Path
               fill="#0099ff"
@@ -63,10 +68,10 @@ const ProgressBar = ({ userId, drinkList }) => {
           </Svg>
           <Svg
             width="100%"
-            height="40%"
+            height={`${percentageString}`}
             style={{ position: "absolute", bottom: 0 }}
           >
-            <Rect x="0" y="0" width="100%" height="100%" fill="#0099ff" />
+            <Rect x="0" y="2" width="100%" height="350px" fill="#0099ff" />
           </Svg>
         </Progress>
       </ProgressContainer>

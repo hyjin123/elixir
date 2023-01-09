@@ -69,6 +69,7 @@ const PreviousDrinks = ({ drinkList }) => {
         <TouchableOpacity key={index} style={tw`justify-between w-full pt-6`}>
           <Text style={tw`font-medium text-base text-white`}>
             {item.name} of {item.type}
+            <Text style={tw`text-xs`}> ({item.value} ml)</Text>
           </Text>
           <Text style={tw`text-[#696868] text-xs`}>
             <TimeAgo time={item.timestamp.toDate()} />
@@ -101,7 +102,7 @@ const PreviousDrinks = ({ drinkList }) => {
       <ScrollView ref={scrollFlash} indicatorStyle="white">
         {mappedData()}
       </ScrollView>
-      {drinkList?.length > 3 && toggle ? (
+      {drinkList?.length > 2 && toggle ? (
         <TouchableOpacity onPress={handleDownScroll} style={tw`items-center`}>
           <ChevronDoubleDownIcon size={20} color="gray" />
         </TouchableOpacity>
