@@ -42,13 +42,15 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={tw`bg-[#121212] flex-1`}>
-      <ConfettiCannon
-        ref={confetti}
-        autoStart={false}
-        fadeOut={true}
-        count={200}
-        origin={{ x: -10, y: 0 }}
-      />
+      <View style={{ zIndex: 9999, position: "absolute", top: 0, bottom: 0 }}>
+        <ConfettiCannon
+          ref={confetti}
+          autoStart={false}
+          fadeOut={true}
+          count={300}
+          origin={{ x: -10, y: 0 }}
+        />
+      </View>
 
       <Header />
       <ProgressBar userId={userId} drinkList={drinkList} />
