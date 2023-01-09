@@ -40,7 +40,7 @@ const ProgressBar = ({ userId, drinkList }) => {
   }, [drinkList]);
 
   return (
-    <View style={tw`flex-row justify-between items-center h-30% mt-1`}>
+    <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
       <TouchableOpacity style={tw`ml-5`}>
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>
@@ -71,7 +71,7 @@ const ProgressBar = ({ userId, drinkList }) => {
             height={`${percentageString}`}
             style={{ position: "absolute", bottom: 0 }}
           >
-            <Rect x="0" y="2" width="100%" height="350px" fill="#0099ff" />
+            <Rect x="0" y="2" width="100%" height="600px" fill="#0099ff" />
           </Svg>
         </Progress>
       </ProgressContainer>
