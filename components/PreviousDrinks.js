@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import { ChevronDownIcon } from "react-native-heroicons/solid";
 import { getDateData } from "../utils/getDateData";
+import TimeAgo from "react-native-timeago";
 
 const PreviousDrinks = ({ userId }) => {
   const [toggle, setToggle] = useState(null);
@@ -67,12 +68,12 @@ const PreviousDrinks = ({ userId }) => {
   const mappedData = () => {
     if (toggle) {
       return drinkList?.map((item, index) => (
-        <TouchableOpacity
-          key={index}
-          style={tw`flex-row justify-between w-full pt-6`}
-        >
+        <TouchableOpacity key={index} style={tw`justify-between w-full pt-6`}>
           <Text style={tw`font-medium text-base text-white`}>
             {item.name} of {item.type}
+          </Text>
+          <Text style={tw`text-[#696868] text-xm`}>
+            <TimeAgo time={item.timestamp.toDate()} />
           </Text>
         </TouchableOpacity>
       ));
