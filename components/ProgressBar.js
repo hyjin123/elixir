@@ -4,8 +4,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Animated,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import tw from "twrnc";
 import {
   ChevronRightIcon,
@@ -14,8 +15,9 @@ import {
 import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
+import * as Animatable from "react-native-animatable";
 
-const ProgressBar = ({ userId, drinkList }) => {
+const ProgressBar = ({ userId, drinkList, animate }) => {
   const [target, setTarget] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -30,6 +32,7 @@ const ProgressBar = ({ userId, drinkList }) => {
       setTarget(data.targetAmount);
     });
 
+    // calculate the total fluid intake/amount for the day
     let totalAmount = 0;
     for (const item of drinkList) {
       totalAmount += item.value;
@@ -44,7 +47,7 @@ const ProgressBar = ({ userId, drinkList }) => {
       <TouchableOpacity style={tw`ml-5`}>
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>
-      <ProgressContainer>
+      <ProgressContainer ref={animate} duration={300}>
         <Progress>
           <Text style={tw`text-white text-5xl z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
@@ -75,7 +78,6 @@ const ProgressBar = ({ userId, drinkList }) => {
           </Svg>
         </Progress>
       </ProgressContainer>
-
       <TouchableOpacity style={tw`mr-5`}>
         <ChevronRightIcon color="white" />
       </TouchableOpacity>
@@ -85,7 +87,7 @@ const ProgressBar = ({ userId, drinkList }) => {
 
 export default ProgressBar;
 
-const Progress = styled.View`
+const Progress = styled(View)`
   display: flex;
   position: relative;
   justify-content: center;
@@ -99,7 +101,7 @@ const Progress = styled.View`
   overflow: hidden;
 `;
 
-const ProgressContainer = styled.View`
+const ProgressContainer = styled(Animatable.View)`
   border: 3px solid white;
   border-radius: 130px;
 `;

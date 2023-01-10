@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Animated } from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
 import { ChevronDownIcon } from "react-native-heroicons/solid";
@@ -10,7 +10,7 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId, setDrinkAdded }) => {
+const AddDrink = ({ userId, setDrinkAdded, animation }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -21,6 +21,9 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
   const [selectedType, setSelectedType] = useState("Water");
 
   const handleAdd = async () => {
+    // run the water animation once drink is added
+    animation();
+
     // get today's date, in yyyy-mm-dd format
     let today = new Date().toISOString().slice(0, 10);
 
