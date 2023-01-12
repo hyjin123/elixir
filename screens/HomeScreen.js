@@ -18,22 +18,28 @@ const HomeScreen = () => {
   // const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
 
+  // the blue circle popping animation when user adds a drink
   const animateElement = () => {
     fadeAnim.setValue(0);
 
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 500,
+      duration: 1000,
       useNativeDriver: true,
     }).start(() => fadeAnim.setValue(0));
   };
 
   const spinDeg = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 3.8],
+    outputRange: [0, 4.5],
   });
 
-  const opacityStyle = { transform: [{ scale: spinDeg }] };
+  const opacity = fadeAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [1, 0],
+  });
+
+  const opacityStyle = { transform: [{ scale: spinDeg }], opacity: opacity };
 
   const confetti = useRef(null);
 

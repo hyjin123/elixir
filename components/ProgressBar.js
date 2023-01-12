@@ -118,6 +118,5 @@ const styles = StyleSheet.create({
     left: 78,
     backgroundColor: "#0099ff",
     opacity: 0.4,
-    zIndex: 9999,
   },
 });
