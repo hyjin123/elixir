@@ -2,9 +2,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Dimensions,
   Animated,
+  StyleSheet,
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import tw from "twrnc";
@@ -15,9 +14,8 @@ import {
 import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
-import * as Animatable from "react-native-animatable";
 
-const ProgressBar = ({ userId, drinkList, animate }) => {
+const ProgressBar = ({ userId, drinkList, fadeAnim, opacityStyle }) => {
   const [target, setTarget] = useState(0);
   const [total, setTotal] = useState(0);
 
@@ -47,7 +45,8 @@ const ProgressBar = ({ userId, drinkList, animate }) => {
       <TouchableOpacity style={tw`ml-5`}>
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>
-      <ProgressContainer ref={animate} duration={300}>
+      <ProgressContainer>
+        <Animated.View style={[styles.circle, opacityStyle]} />
         <Progress>
           <Text style={tw`text-white text-5xl z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
@@ -87,7 +86,7 @@ const ProgressBar = ({ userId, drinkList, animate }) => {
 
 export default ProgressBar;
 
-const Progress = styled(View)`
+const Progress = styled(Animated.View)`
   display: flex;
   position: relative;
   justify-content: center;
@@ -101,15 +100,24 @@ const Progress = styled(View)`
   overflow: hidden;
 `;
 
-const ProgressContainer = styled(Animatable.View)`
+const ProgressContainer = styled(Animated.View)`
   border: 3px solid white;
   border-radius: 130px;
 `;
 
 const styles = StyleSheet.create({
-  // rest of the styles
-  svgCurve: {
+  circle: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    borderRadius: 150,
+    height: 100,
     position: "absolute",
-    width: Dimensions.get("window").width,
+    top: 78,
+    left: 78,
+    backgroundColor: "#0099ff",
+    opacity: 0.4,
+    zIndex: 9999,
   },
 });

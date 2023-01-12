@@ -15,16 +15,29 @@ const HomeScreen = () => {
   // use this state to re-render previous drinks if a drink is added
   const [drinkAdded, setDrinkAdded] = useState(0);
   const [drinkList, setDrinkList] = useState([]);
-  const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
+  // const fadeAnim = useRef(new Animated.Value(0)).current;
+  const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
+
+  const animateElement = () => {
+    fadeAnim.setValue(0);
+
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => fadeAnim.setValue(0));
+  };
+
+  const spinDeg = fadeAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 3.8],
+  });
+
+  const opacityStyle = { transform: [{ scale: spinDeg }] };
 
   const confetti = useRef(null);
-  const animate = useRef(null);
 
   const userId = auth.currentUser.uid;
-
-  const animation = () => {
-    animate.current.pulse();
-  };
 
   // get all the drink data from today
   useEffect(() => {
@@ -60,11 +73,16 @@ const HomeScreen = () => {
       </View>
 
       <Header />
-      <ProgressBar userId={userId} drinkList={drinkList} animate={animate} />
+      <ProgressBar
+        userId={userId}
+        drinkList={drinkList}
+        fadeAnim={fadeAnim}
+        opacityStyle={opacityStyle}
+      />
       <AddDrink
         userId={userId}
         setDrinkAdded={setDrinkAdded}
-        animation={animation}
+        animateElement={animateElement}
       />
       <PreviousDrinks drinkList={drinkList} />
     </SafeAreaView>

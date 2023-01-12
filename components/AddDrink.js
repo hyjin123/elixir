@@ -10,7 +10,7 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId, setDrinkAdded, animation }) => {
+const AddDrink = ({ userId, setDrinkAdded, animateElement }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -21,8 +21,8 @@ const AddDrink = ({ userId, setDrinkAdded, animation }) => {
   const [selectedType, setSelectedType] = useState("Water");
 
   const handleAdd = async () => {
-    // run the water animation once drink is added
-    animation();
+    // animate the popping motion
+    animateElement();
 
     // get today's date, in yyyy-mm-dd format
     let today = new Date().toISOString().slice(0, 10);
