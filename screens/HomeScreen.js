@@ -17,23 +17,33 @@ const HomeScreen = () => {
   const [drinkList, setDrinkList] = useState([]);
   // const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
+  const waterAnim = useState(new Animated.Value(0))[0]; // Makes animated value
 
   // the blue circle popping animation when user adds a drink
   const animateElement = () => {
     fadeAnim.setValue(0);
+    waterAnim.setValue(0);
 
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 1000,
       useNativeDriver: true,
     }).start(() => fadeAnim.setValue(0));
+
+    Animated.timing(waterAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
   };
 
+  // determine the start and end value for the scale css
   const spinDeg = fadeAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 4.5],
   });
 
+  // determine the start and end value for the opacity css
   const opacity = fadeAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [1, 0],
@@ -82,7 +92,7 @@ const HomeScreen = () => {
       <ProgressBar
         userId={userId}
         drinkList={drinkList}
-        fadeAnim={fadeAnim}
+        waterAnim={waterAnim}
         opacityStyle={opacityStyle}
       />
       <AddDrink

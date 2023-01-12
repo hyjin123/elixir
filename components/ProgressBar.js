@@ -15,14 +15,22 @@ import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
 
-const ProgressBar = ({ userId, drinkList, fadeAnim, opacityStyle }) => {
+const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
   const [target, setTarget] = useState(0);
+  const [previousTotal, setPreviousTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const AnimatedSVG = Animated.createAnimatedComponent(Svg);
+
+  let percentageString = "0%";
+  let previousPercentageString = "0%";
+  let percentageString2 = "0%";
 
   // used to set the positioning of the SVGs so that the water is at a correct height
-  const percentageString = Math.round((total / target) * 100).toString() + "%";
-  const percentageString2 =
-    (Math.round((total / target) * 100) - 1).toString() + "%";
+  percentageString = Math.round((total / target) * 100).toString() + "%";
+  previousPercentageString =
+    Math.round((previousTotal / target) * 100).toString() + "%";
+
+  percentageString2 = (Math.round((total / target) * 100) - 1).toString() + "%";
 
   useEffect(() => {
     getSettings(userId).then((data) => {
@@ -37,8 +45,17 @@ const ProgressBar = ({ userId, drinkList, fadeAnim, opacityStyle }) => {
     }
 
     // set the total
+    setPreviousTotal(total);
     setTotal(totalAmount);
   }, [drinkList]);
+
+  // determine the start and end value for the opacity css
+  const waterStyle = waterAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["10%", "20%"],
+  });
+
+  console.log(previousPercentageString, percentageString);
 
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
@@ -55,26 +72,28 @@ const ProgressBar = ({ userId, drinkList, fadeAnim, opacityStyle }) => {
           <Text style={tw`text-white text-base z-10`}>
             {total / 1000} of {target / 1000} L
           </Text>
-          <Svg
+          <AnimatedSVG
             height="25%"
             width="100%"
             viewBox="0 0 1440 320"
             preserveAspectRatio="none"
             // the absolute position of the wavey svg is 1% lower than the rect svg so that it overlaps
-            style={{ position: "absolute", bottom: `${percentageString2}` }}
+            // style={{ position: "absolute", bottom: `${percentageString2}` }}
+            style={{ position: "absolute", bottom: waterStyle }}
           >
             <Path
               fill="#0099ff"
               d="M0,160L48,149.3C96,139,192,117,288,117.3C384,117,480,139,576,165.3C672,192,768,224,864,208C960,192,1056,128,1152,106.7C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
             />
-          </Svg>
-          <Svg
+          </AnimatedSVG>
+          <AnimatedSVG
             width="100%"
-            height={`${percentageString}`}
+            height={waterStyle}
+            // height={`${percentageString}`}
             style={{ position: "absolute", bottom: 0 }}
           >
             <Rect x="0" y="2" width="100%" height="600px" fill="#0099ff" />
-          </Svg>
+          </AnimatedSVG>
         </Progress>
       </ProgressContainer>
       <TouchableOpacity style={tw`mr-5`}>
