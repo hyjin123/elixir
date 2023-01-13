@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Animated } from "react-native";
+import { View, Text, TouchableOpacity, Animated, Easing } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
@@ -32,7 +32,7 @@ const HomeScreen = () => {
 
     Animated.timing(waterAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 800,
       useNativeDriver: false,
     }).start();
   };

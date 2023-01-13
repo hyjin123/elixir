@@ -23,7 +23,7 @@ const RegisterTab = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.replace("HomeScreen");
+        navigation.navigate("HomeScreen");
       }
     });
 

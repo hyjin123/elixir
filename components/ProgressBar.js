@@ -19,18 +19,11 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [inputRange, setInputRange] = useState([0, 1]);
+  const [outputRange, setOutputRange] = useState([0, 1]);
+  const [outputRange2, setOutputRange2] = useState([0, 1]);
+
   const AnimatedSVG = Animated.createAnimatedComponent(Svg);
-
-  let percentageString = "0%";
-  let previousPercentageString = "0%";
-  let percentageString2 = "0%";
-
-  // used to set the positioning of the SVGs so that the water is at a correct height
-  percentageString = Math.round((total / target) * 100).toString() + "%";
-  previousPercentageString =
-    Math.round((previousTotal / target) * 100).toString() + "%";
-
-  percentageString2 = (Math.round((total / target) * 100) - 1).toString() + "%";
 
   useEffect(() => {
     getSettings(userId).then((data) => {
@@ -44,18 +37,48 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
       totalAmount += item.value;
     }
 
+    // console.log("this is the total amount", totalAmount);
     // set the total
-    setPreviousTotal(total);
+    if (total === 0) {
+      setPreviousTotal(totalAmount);
+    } else {
+      setPreviousTotal(total);
+    }
     setTotal(totalAmount);
+
+    // used to set the positioning of the SVGs so that the water is at a correct height
+    const percentageString =
+      Math.round((total / target) * 100).toString() + "%";
+    const percentageString2 =
+      Math.round((total / target) * 100 - 1).toString() + "%";
+
+    const previousPercentageString =
+      Math.round((previousTotal / target) * 100).toString() + "%";
+    const previousPercentageString2 =
+      Math.round((previousTotal / target) * 100 - 1).toString() + "%";
+
+    // console.log(previousPercentageString2, percentageString2);
+    // console.log(previousPercentageString, percentageString);
+    // const outputRange = [previousPercentageString, percentageString];
+    // const outputRange2 = [previousPercentageString2, percentageString2];
+    if (previousTotal && total && target) {
+      setOutputRange([previousPercentageString, percentageString]);
+      setOutputRange2([previousPercentageString2, percentageString2]);
+    }
   }, [drinkList]);
 
   // determine the start and end value for the opacity css
-  const waterStyle = waterAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["10%", "20%"],
+  const water = waterAnim.interpolate({
+    inputRange,
+    outputRange,
   });
 
-  console.log(previousPercentageString, percentageString);
+  const waters = waterAnim.interpolate({
+    inputRange,
+    outputRange: outputRange2,
+  });
+
+  const waterStyle = { bottom: waters };
 
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
@@ -79,7 +102,7 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
             preserveAspectRatio="none"
             // the absolute position of the wavey svg is 1% lower than the rect svg so that it overlaps
             // style={{ position: "absolute", bottom: `${percentageString2}` }}
-            style={{ position: "absolute", bottom: waterStyle }}
+            style={[{ position: "absolute" }, waterStyle]}
           >
             <Path
               fill="#0099ff"
@@ -88,7 +111,7 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
           </AnimatedSVG>
           <AnimatedSVG
             width="100%"
-            height={waterStyle}
+            height={water}
             // height={`${percentageString}`}
             style={{ position: "absolute", bottom: 0 }}
           >
