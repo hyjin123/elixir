@@ -14,6 +14,7 @@ import {
 import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
+import { animated, useSpring } from "@react-spring/web";
 
 const ProgressBar = ({
   userId,
@@ -28,8 +29,21 @@ const ProgressBar = ({
   const [inputRange, setInputRange] = useState([0, 1]);
   const [outputRange, setOutputRange] = useState([0, 1]);
   const [outputRange2, setOutputRange2] = useState([0, 1]);
+  const [numberCounter, setNumberCounter] = useState([0, 0]);
 
   const AnimatedSVG = Animated.createAnimatedComponent(Svg);
+  // the number counter is using react-spring library and not react native animation
+  const AnimatedText = animated(Text);
+
+  // react- spring for the number counter animation
+  function Number({ from, to }) {
+    const { number } = useSpring({
+      from: { number: from },
+      number: to,
+      config: { mass: 1, tension: 20, friction: 10 },
+    });
+    return <AnimatedText>{number.to((to) => to.toFixed(0))}</AnimatedText>;
+  }
 
   useEffect(() => {
     getSettings(userId).then((data) => {
@@ -51,17 +65,23 @@ const ProgressBar = ({
       setPreviousTotal(total);
     }
     setTotal(totalAmount);
+
+    setNumberCounter([
+      Math.round((total / target) * 100),
+      Math.round((totalAmount / target) * 100),
+    ]);
   }, [drinkList]);
 
+  let percentageString = 0;
+  let previousPercentageString = 0;
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
     // used to set the positioning of the SVGs so that the water is at a correct height
-    const percentageString =
-      Math.round((total / target) * 100).toString() + "%";
+    percentageString = Math.round((total / target) * 100).toString() + "%";
     const percentageString2 =
       Math.round((total / target) * 100 - 1).toString() + "%";
 
-    const previousPercentageString =
+    previousPercentageString =
       Math.round((previousTotal / target) * 100).toString() + "%";
     const previousPercentageString2 =
       Math.round((previousTotal / target) * 100 - 1).toString() + "%";
@@ -103,8 +123,10 @@ const ProgressBar = ({
         <Progress>
           <Text style={tw`text-white text-5xl z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
-            {Math.round((total / target) * 100)} %
+            <Number from={numberCounter[0]} to={numberCounter[1]} />
+            <Text>%</Text>
           </Text>
+
           <Text style={tw`text-white text-base z-10`}>
             {total / 1000} of {target / 1000} L
           </Text>

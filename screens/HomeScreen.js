@@ -26,13 +26,13 @@ const HomeScreen = () => {
 
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 600,
       useNativeDriver: true,
     }).start(() => fadeAnim.setValue(0));
 
     Animated.timing(waterAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 600,
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();
@@ -96,12 +96,9 @@ const HomeScreen = () => {
         waterAnim={waterAnim}
         opacityStyle={opacityStyle}
         animateElement={animateElement}
+        drinkAdded={drinkAdded}
       />
-      <AddDrink
-        userId={userId}
-        setDrinkAdded={setDrinkAdded}
-        animateElement={animateElement}
-      />
+      <AddDrink userId={userId} setDrinkAdded={setDrinkAdded} />
       <PreviousDrinks drinkList={drinkList} />
     </SafeAreaView>
   );
