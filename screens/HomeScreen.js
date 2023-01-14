@@ -32,7 +32,8 @@ const HomeScreen = () => {
 
     Animated.timing(waterAnim, {
       toValue: 1,
-      duration: 800,
+      duration: 1000,
+      easing: Easing.linear,
       useNativeDriver: false,
     }).start();
   };
@@ -94,6 +95,7 @@ const HomeScreen = () => {
         drinkList={drinkList}
         waterAnim={waterAnim}
         opacityStyle={opacityStyle}
+        animateElement={animateElement}
       />
       <AddDrink
         userId={userId}

@@ -15,7 +15,13 @@ import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
 
-const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
+const ProgressBar = ({
+  userId,
+  drinkList,
+  waterAnim,
+  opacityStyle,
+  animateElement,
+}) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -45,7 +51,10 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
       setPreviousTotal(total);
     }
     setTotal(totalAmount);
+  }, [drinkList]);
 
+  // whenever the total amount changes (when a user adds a drink), change the output of the animation
+  useEffect(() => {
     // used to set the positioning of the SVGs so that the water is at a correct height
     const percentageString =
       Math.round((total / target) * 100).toString() + "%";
@@ -57,15 +66,19 @@ const ProgressBar = ({ userId, drinkList, waterAnim, opacityStyle }) => {
     const previousPercentageString2 =
       Math.round((previousTotal / target) * 100 - 1).toString() + "%";
 
-    // console.log(previousPercentageString2, percentageString2);
-    // console.log(previousPercentageString, percentageString);
-    // const outputRange = [previousPercentageString, percentageString];
-    // const outputRange2 = [previousPercentageString2, percentageString2];
+    console.log(previousPercentageString2, percentageString2);
+    console.log(previousPercentageString, percentageString);
+
     if (previousTotal && total && target) {
+      // const outputRange = [previousPercentageString, percentageString];
+      // const outputRange2 = [previousPercentageString2, percentageString2];
       setOutputRange([previousPercentageString, percentageString]);
       setOutputRange2([previousPercentageString2, percentageString2]);
     }
-  }, [drinkList]);
+
+    // animate the popping motion
+    animateElement();
+  }, [total, previousTotal]);
 
   // determine the start and end value for the opacity css
   const water = waterAnim.interpolate({

@@ -21,9 +21,6 @@ const AddDrink = ({ userId, setDrinkAdded, animateElement }) => {
   const [selectedType, setSelectedType] = useState("Water");
 
   const handleAdd = async () => {
-    // animate the popping motion
-    animateElement();
-
     // get today's date, in yyyy-mm-dd format
     let today = new Date().toISOString().slice(0, 10);
 
