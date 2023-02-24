@@ -103,7 +103,10 @@ const PreviousDrinks = ({ drinkList }) => {
         {mappedData()}
       </ScrollView>
       {drinkList?.length > 2 && toggle ? (
-        <TouchableOpacity onPress={handleDownScroll} style={tw`items-center`}>
+        <TouchableOpacity
+          onPress={handleDownScroll}
+          style={tw`items-center mt-5`}
+        >
           <ChevronDoubleDownIcon size={20} color="gray" />
         </TouchableOpacity>
       ) : (

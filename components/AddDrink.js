@@ -63,7 +63,7 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
   };
 
   return (
-    <View style={tw`mt-15 justify-center items-start mx-5`}>
+    <View style={tw`mt-12 justify-center items-start mx-5`}>
       {/* Modal - Choose Size of Drink*/}
       <ChooseSizeModal
         userId={userId}
