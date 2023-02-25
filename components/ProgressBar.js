@@ -98,11 +98,7 @@ const ProgressBar = ({
       setOutputRange([previousPercentageString, percentageString]);
       setOutputRange2([previousPercentageString2, percentageString2]);
     }
-  }, [total, previousTotal, drinkAddedAnimation]);
-
-  // this solved the percentage sign bug, where the percentage was dipping before raising to the initial and final fluid amount
-  useEffect(() => {
-    // animate the popping motion
+    // animate the popping and water animation
     animateElement();
   }, [drinkAddedAnimation]);
 

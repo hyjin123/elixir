@@ -33,8 +33,7 @@ const HomeScreen = () => {
 
     Animated.timing(waterAnim, {
       toValue: 1,
-      duration: 600,
-      easing: Easing.linear,
+      duration: 1000,
       useNativeDriver: false,
     }).start();
   };
