@@ -21,6 +21,9 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
   const [selectedType, setSelectedType] = useState("Water");
 
   const handleAdd = async () => {
+    // used to render previous drink component when a new drink is added
+    setDrinkAdded((current) => current + 1);
+
     // get today's date, in yyyy-mm-dd format
     let today = new Date().toISOString().slice(0, 10);
 
@@ -57,9 +60,6 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
         { merge: true }
       );
     }
-
-    // used to render previous drink component when a new drink is added
-    setDrinkAdded((current) => current + 1);
   };
 
   return (

@@ -109,7 +109,8 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
           </TouchableOpacity>
           <Text style={tw`mt-3 text-xs text-white`}>
             The U.S. National Academies of Sciences, Engineering, and Medicine
-            suggests about 3.7 l of fluids a day for men and 2.7 l for women.
+            suggests about 3.7 litre of fluids a day for men and 2.7 litre for
+            women.
           </Text>
         </View>
 

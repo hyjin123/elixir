@@ -22,6 +22,7 @@ const ProgressBar = ({
   waterAnim,
   opacityStyle,
   animateElement,
+  drinkAdded,
 }) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
@@ -70,10 +71,11 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList]);
+  }, [drinkList, drinkAdded]);
 
   let percentageString = 0;
   let previousPercentageString = 0;
+
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
     // used to set the positioning of the SVGs so that the water is at a correct height
@@ -95,10 +97,12 @@ const ProgressBar = ({
       setOutputRange([previousPercentageString, percentageString]);
       setOutputRange2([previousPercentageString2, percentageString2]);
     }
+  }, [total, previousTotal]);
 
+  useEffect(() => {
     // animate the popping motion
     animateElement();
-  }, [total, previousTotal]);
+  }, [drinkAdded]);
 
   // determine the start and end value for the opacity css
   const water = waterAnim.interpolate({
