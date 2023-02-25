@@ -97,7 +97,7 @@ const ProgressBar = ({
       setOutputRange([previousPercentageString, percentageString]);
       setOutputRange2([previousPercentageString2, percentageString2]);
     }
-  }, [total, previousTotal]);
+  }, [total, previousTotal, drinkAdded]);
 
   // this solved the percentage sign bug, where the percentage was dipping before raising to the initial and final fluid amount
   useEffect(() => {
@@ -128,7 +128,12 @@ const ProgressBar = ({
         <Progress>
           <Text style={tw`text-white text-5xl z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
-            <Number from={numberCounter[0]} to={numberCounter[1]} />
+            {/* if the total amount of fluid is 0, display 0% or else it will show NaN% */}
+            {total === 0 ? (
+              <Text>0</Text>
+            ) : (
+              <Number from={numberCounter[0]} to={numberCounter[1]} />
+            )}
             <Text>%</Text>
           </Text>
 
