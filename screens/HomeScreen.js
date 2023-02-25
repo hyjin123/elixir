@@ -14,6 +14,7 @@ import { getSettings } from "../utils/getSettings";
 const HomeScreen = () => {
   // use this state to re-render previous drinks if a drink is added
   const [drinkAdded, setDrinkAdded] = useState(0);
+  const [drinkAddedAnimation, setDrinkAddedAnimation] = useState(0);
   const [drinkList, setDrinkList] = useState([]);
   // const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
@@ -100,8 +101,13 @@ const HomeScreen = () => {
         opacityStyle={opacityStyle}
         animateElement={animateElement}
         drinkAdded={drinkAdded}
+        drinkAddedAnimation={drinkAddedAnimation}
       />
-      <AddDrink userId={userId} setDrinkAdded={setDrinkAdded} />
+      <AddDrink
+        userId={userId}
+        setDrinkAdded={setDrinkAdded}
+        setDrinkAddedAnimation={setDrinkAddedAnimation}
+      />
       <PreviousDrinks drinkList={drinkList} />
     </SafeAreaView>
   );

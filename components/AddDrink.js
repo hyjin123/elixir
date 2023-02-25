@@ -10,7 +10,7 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId, setDrinkAdded }) => {
+const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -21,8 +21,8 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
   const [selectedType, setSelectedType] = useState("Water");
 
   const handleAdd = async () => {
-    // used to render previous drink component when a new drink is added
-    setDrinkAdded((current) => current + 1);
+    // this triggers the water, popping, and number counter animation as soon as the button is clicked
+    setDrinkAddedAnimation((current) => current + 1);
 
     // get today's date, in yyyy-mm-dd format
     let today = new Date().toISOString().slice(0, 10);
@@ -60,6 +60,8 @@ const AddDrink = ({ userId, setDrinkAdded }) => {
         { merge: true }
       );
     }
+    // used to render previous drink component when a new drink is added, this needs to go in the end, if not, the first drink wont be counted
+    setDrinkAdded((current) => current + 1);
   };
 
   return (

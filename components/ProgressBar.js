@@ -5,7 +5,7 @@ import {
   Animated,
   StyleSheet,
 } from "react-native";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import tw from "twrnc";
 import {
   ChevronRightIcon,
@@ -23,6 +23,7 @@ const ProgressBar = ({
   opacityStyle,
   animateElement,
   drinkAdded,
+  drinkAddedAnimation,
 }) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
@@ -71,7 +72,7 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList, drinkAdded]);
+  }, [drinkList, drinkAddedAnimation]);
 
   let percentageString = 0;
   let previousPercentageString = 0;
@@ -97,13 +98,13 @@ const ProgressBar = ({
       setOutputRange([previousPercentageString, percentageString]);
       setOutputRange2([previousPercentageString2, percentageString2]);
     }
-  }, [total, previousTotal, drinkAdded]);
+  }, [total, previousTotal, drinkAddedAnimation]);
 
   // this solved the percentage sign bug, where the percentage was dipping before raising to the initial and final fluid amount
   useEffect(() => {
     // animate the popping motion
     animateElement();
-  }, [drinkAdded]);
+  }, [drinkAddedAnimation]);
 
   // determine the start and end value for the opacity css
   const water = waterAnim.interpolate({
