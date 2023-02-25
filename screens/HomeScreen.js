@@ -61,10 +61,13 @@ const HomeScreen = () => {
     const today = new Date().toISOString().slice(0, 10);
 
     getDateData(userId, today).then((data) => {
-      setDrinkList(data.drinks);
       let totalAmount = 0;
-      for (const item of data.drinks) {
-        totalAmount += item.value;
+      // if there are drinks in the drink list
+      if (data !== undefined) {
+        setDrinkList(data.drinks);
+        for (const item of data.drinks) {
+          totalAmount += item.value;
+        }
       }
 
       // get the target amount, if total amount exceeds the target amount, release the confetti

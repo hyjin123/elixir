@@ -41,7 +41,7 @@ const ProgressBar = ({
     const { number } = useSpring({
       from: { number: from },
       number: to,
-      config: { mass: 1, tension: 20, friction: 10 },
+      config: { mass: 1, tension: 120, friction: 14 },
     });
     return <AnimatedText>{number.to((to) => to.toFixed(0))}</AnimatedText>;
   }
@@ -88,7 +88,7 @@ const ProgressBar = ({
     const previousPercentageString2 =
       Math.round((previousTotal / target) * 100 - 1).toString() + "%";
 
-    console.log(previousPercentageString2, percentageString2);
+    console.log("ok", previousPercentageString2, percentageString2);
     console.log(previousPercentageString, percentageString);
 
     if (previousTotal && total && target) {
@@ -99,6 +99,7 @@ const ProgressBar = ({
     }
   }, [total, previousTotal]);
 
+  // this solved the percentage sign bug, where the percentage was dipping before raising to the initial and final fluid amount
   useEffect(() => {
     // animate the popping motion
     animateElement();
