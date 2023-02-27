@@ -83,10 +83,10 @@ const ProgressBar = ({
   useEffect(() => {
     if (total === 0) {
       // used to set the positioning of the SVGs so that the water is at a correct height
-      percentageString = "-12%";
-      percentageString2 = "-13%";
-      previousPercentageString = "-10%";
-      previousPercentageString2 = "-11%";
+      percentageString = "-5%";
+      percentageString2 = "-6%";
+      previousPercentageString = "-6%";
+      previousPercentageString2 = "-7%";
     } else {
       // used to set the positioning of the SVGs so that the water is at a correct height when user starts adding drinks
       percentageString =

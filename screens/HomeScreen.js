@@ -27,7 +27,7 @@ const HomeScreen = () => {
 
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 600,
+      duration: 1000,
       useNativeDriver: true,
     }).start(() => fadeAnim.setValue(0));
 
