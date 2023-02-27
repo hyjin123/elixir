@@ -42,7 +42,7 @@ const ProgressBar = ({
     const { number } = useSpring({
       from: { number: from },
       number: to,
-      config: { mass: 1, tension: 120, friction: 14 },
+      config: { mass: 1, tension: 185, friction: 30 },
     });
     return <AnimatedText>{number.to((to) => to.toFixed(0))}</AnimatedText>;
   }

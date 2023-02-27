@@ -12,10 +12,20 @@ import {
   ChevronDownIcon,
   ChevronDoubleDownIcon,
 } from "react-native-heroicons/solid";
+import { TrashIcon } from "react-native-heroicons/outline";
 import TimeAgo from "react-native-timeago";
+import { db } from "../firebase";
+import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 
-const PreviousDrinks = ({ drinkList }) => {
+const PreviousDrinks = ({
+  drinkList,
+  userId,
+  setDrinkAddedAnimation,
+  setDrinkAdded,
+}) => {
   const [toggle, setToggle] = useState(null);
+  const [selectedDrinkIndex, setSelectedDrinkIndex] = useState("");
+
   const spinValue = useState(new Animated.Value(0))[0]; // Makes animated value
 
   const scrollFlash = useRef(null);
@@ -63,18 +73,67 @@ const PreviousDrinks = ({ drinkList }) => {
     transform: [{ rotate: spinDeg }],
   };
 
+  // handle if a user selects one of the previous drinks from the list
+  const handleSelect = (selectedItem) => {
+    setSelectedDrinkIndex(selectedItem);
+  };
+
+  // handle if a user deletes one of the previous drinks from the list
+  const handleDelete = async (item) => {
+    // get today's date, in yyyy-mm-dd format
+    let today = new Date().toISOString().slice(0, 10);
+
+    const docRef = doc(db, "users", userId, "dates", today);
+
+    // remove item that matches in the drinks array in firebase
+    await updateDoc(docRef, {
+      drinks: arrayRemove({
+        name: item.name,
+        timestamp: item.timestamp,
+        type: item.type,
+        value: item.value,
+      }),
+    });
+
+    // re-render after user deletes a drink
+    setDrinkAdded((current) => current + 1);
+
+    // set the selected drink to nothing since it was deleted
+    setSelectedDrinkIndex("");
+  };
+
+  // map all the drinks and display them in a list
   const mappedData = () => {
     if (toggle) {
       return drinkList?.map((item, index) => (
-        <TouchableOpacity key={index} style={tw`justify-between w-full pt-6`}>
-          <Text style={tw`font-medium text-base text-white`}>
-            {item.name} of {item.type}
-            <Text style={tw`text-xs`}> ({item.value} ml)</Text>
-          </Text>
-          <Text style={tw`text-[#696868] text-xs`}>
-            <TimeAgo time={item.timestamp.toDate()} />
-          </Text>
-        </TouchableOpacity>
+        <View key={index} style={tw`flex flex-row justify-between`}>
+          <TouchableOpacity
+            onPress={() => handleSelect(index)}
+            style={tw`pt-6`}
+          >
+            <Text
+              style={tw`font-medium text-base ${
+                selectedDrinkIndex === index ? "text-[#0099ff]" : "text-white"
+              }`}
+            >
+              {item.name} of {item.type}
+              <Text style={tw`text-xs`}> ({item.value} ml)</Text>
+            </Text>
+            <Text style={tw`text-[#696868] text-xs`}>
+              <TimeAgo time={item.timestamp.toDate()} />
+            </Text>
+          </TouchableOpacity>
+          {selectedDrinkIndex === index ? (
+            <TouchableOpacity
+              onPress={() => handleDelete(item)}
+              style={tw`pt-6 pr-4 self-end`}
+            >
+              <TrashIcon size={22} color="white" />
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+        </View>
       ));
     }
   };

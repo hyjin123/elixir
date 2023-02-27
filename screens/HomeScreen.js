@@ -107,7 +107,12 @@ const HomeScreen = () => {
         setDrinkAdded={setDrinkAdded}
         setDrinkAddedAnimation={setDrinkAddedAnimation}
       />
-      <PreviousDrinks drinkList={drinkList} />
+      <PreviousDrinks
+        userId={userId}
+        drinkList={drinkList}
+        setDrinkAddedAnimation={setDrinkAddedAnimation}
+        setDrinkAdded={setDrinkAdded}
+      />
     </SafeAreaView>
   );
 };
