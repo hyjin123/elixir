@@ -62,7 +62,7 @@ const ProgressBar = ({
     // console.log("this is the total amount", totalAmount);
     // set the total
     if (total === 0) {
-      setPreviousTotal(totalAmount);
+      setPreviousTotal(0);
     } else {
       setPreviousTotal(total);
     }
@@ -76,31 +76,42 @@ const ProgressBar = ({
 
   let percentageString = 0;
   let previousPercentageString = 0;
+  let percentageString2 = 0;
+  let previousPercentageString2 = 0;
 
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
-    // used to set the positioning of the SVGs so that the water is at a correct height
-    percentageString = Math.round((total / target) * 100).toString() + "%";
-    const percentageString2 =
-      Math.round((total / target) * 100 - 1).toString() + "%";
+    if (total === 0) {
+      // used to set the positioning of the SVGs so that the water is at a correct height
+      percentageString = "-12%";
+      percentageString2 = "-13%";
+      previousPercentageString = "-10%";
+      previousPercentageString2 = "-11%";
+    } else {
+      // used to set the positioning of the SVGs so that the water is at a correct height when user starts adding drinks
+      percentageString =
+        Math.round((total / target) * 100 - 5).toString() + "%";
+      percentageString2 =
+        Math.round((total / target) * 100 - 6).toString() + "%";
 
-    previousPercentageString =
-      Math.round((previousTotal / target) * 100).toString() + "%";
-    const previousPercentageString2 =
-      Math.round((previousTotal / target) * 100 - 1).toString() + "%";
+      previousPercentageString =
+        Math.round((previousTotal / target) * 100 - 5).toString() + "%";
+      previousPercentageString2 =
+        Math.round((previousTotal / target) * 100 - 6).toString() + "%";
+    }
 
     console.log("ok", previousPercentageString2, percentageString2);
     console.log(previousPercentageString, percentageString);
 
-    if (previousTotal && total && target) {
-      // const outputRange = [previousPercentageString, percentageString];
-      // const outputRange2 = [previousPercentageString2, percentageString2];
-      setOutputRange([previousPercentageString, percentageString]);
-      setOutputRange2([previousPercentageString2, percentageString2]);
-    }
+    // setOutputRange([previousPercentageString, percentageString]);
+    // setOutputRange2([previousPercentageString2, percentageString2]);
+
+    setOutputRange([previousPercentageString, percentageString]);
+    setOutputRange2([previousPercentageString2, percentageString2]);
+
     // animate the popping and water animation
     animateElement();
-  }, [drinkAddedAnimation]);
+  }, [total]);
 
   // determine the start and end value for the opacity css
   const water = waterAnim.interpolate({

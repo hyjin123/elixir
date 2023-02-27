@@ -59,9 +59,9 @@ const HomeScreen = () => {
   // get all the drink data from today
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
+    let totalAmount = 0;
 
     getDateData(userId, today).then((data) => {
-      let totalAmount = 0;
       // if there are drinks in the drink list
       if (data !== undefined) {
         setDrinkList(data.drinks);
