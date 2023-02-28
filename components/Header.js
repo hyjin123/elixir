@@ -15,14 +15,18 @@ const Header = ({ setDrinkAdded }) => {
         setModalVisible={setSettingsModalVisible}
         setDrinkAdded={setDrinkAdded}
       />
-      <View style={tw`p-8`}>
-        <Text style={tw`text-white text-xl`}>Elixir!</Text>
+      <View style={tw`py-8`}>
+        <Text
+          style={tw`text-white text-3xl italic font-extrabold tracking-wide`}
+        >
+          Elixir!
+        </Text>
       </View>
       <TouchableOpacity
         onPress={() => setSettingsModalVisible(true)}
-        style={tw`p-8 absolute right-0 top-0`}
+        style={tw`absolute right-0 top-0 py-9 pr-6`}
       >
-        <Cog6ToothIcon color="white" />
+        <Cog6ToothIcon color="white" size={26} />
       </TouchableOpacity>
     </View>
   );

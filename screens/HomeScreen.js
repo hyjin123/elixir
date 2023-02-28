@@ -1,5 +1,4 @@
 import { View, Text, TouchableOpacity, Animated, Easing } from "react-native";
-import { useCallback } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
@@ -11,10 +10,6 @@ import { auth } from "../firebase";
 import { getDateData } from "../utils/getDateData";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { getSettings } from "../utils/getSettings";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
-SplashScreen.preventAutoHideAsync();
 
 const HomeScreen = () => {
   // use this state to re-render previous drinks if a drink is added
@@ -25,8 +20,6 @@ const HomeScreen = () => {
   // const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
   const waterAnim = useState(new Animated.Value(0))[0]; // Makes animated value
-
-  const confetti = useRef(null);
 
   // the blue circle popping animation when user adds a drink
   const animateElement = () => {
@@ -62,6 +55,8 @@ const HomeScreen = () => {
 
   const userId = auth.currentUser.uid;
 
+  const confetti = useRef(null);
+
   // get all the drink data from today
   useEffect(() => {
     const today = new Date().toISOString().slice(0, 10);
@@ -85,36 +80,13 @@ const HomeScreen = () => {
     });
   }, [drinkAdded]);
 
-  // google fonts - custom fonts
-  const [fontsLoaded] = useFonts({
-    Nunito: require("../assets/fonts/Nunito-Regular.ttf"),
-    NunitoBold: require("../assets/fonts/Nunito-ExtraBold.ttf"),
-  });
-
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-
-      prepare();
-    }
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
   return (
-    <SafeAreaView style={tw`bg-[#121212] flex-1`} onLayout={onLayoutRootView}>
+    <SafeAreaView style={tw`bg-[#121212] flex-1`}>
       <View
         style={{
           zIndex: 9999,
           position: "absolute",
           bottom: 0,
-          fontFamily: "Nunito",
         }}
       >
         <ConfettiCannon
