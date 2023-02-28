@@ -100,8 +100,8 @@ const ProgressBar = ({
         Math.round((previousTotal / target) * 100 - 6).toString() + "%";
     }
 
-    console.log("ok", previousPercentageString2, percentageString2);
-    console.log(previousPercentageString, percentageString);
+    // console.log("ok", previousPercentageString2, percentageString2);
+    // console.log(previousPercentageString, percentageString);
 
     // setOutputRange([previousPercentageString, percentageString]);
     // setOutputRange2([previousPercentageString2, percentageString2]);
@@ -134,7 +134,7 @@ const ProgressBar = ({
       <ProgressContainer>
         <Animated.View style={[styles.circle, opacityStyle]} />
         <Progress>
-          <Text style={tw`text-white text-5xl z-10`}>
+          <Text style={tw`text-white text-6xl font-bold z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
             {/* if the total amount of fluid is 0, display 0% or else it will show NaN% */}
             {total === 0 ? (

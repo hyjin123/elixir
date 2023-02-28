@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/core";
 import { getSettings } from "../utils/getSettings";
 import { XMarkIcon } from "react-native-heroicons/solid";
 
-const SettingsModal = ({ modalVisible, setModalVisible }) => {
+const SettingsModal = ({ modalVisible, setModalVisible, setDrinkAdded }) => {
   const [text, setText] = useState("");
   // this is used to persist the original target amount (ex, if user changes target amount field but does not save)
   const [targetAmount, setTargetAmount] = useState("");
@@ -68,6 +68,9 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => {
 
     // used to re-run useEffect
     setTargetChange((current) => current + 1);
+
+    // used to re-render the app
+    setDrinkAdded((current) => current + 1);
   };
 
   return (

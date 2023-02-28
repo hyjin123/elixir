@@ -4,7 +4,7 @@ import tw from "twrnc";
 import { Cog6ToothIcon } from "react-native-heroicons/outline";
 import SettingsModal from "./SettingsModal";
 
-const Header = () => {
+const Header = ({ setDrinkAdded }) => {
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
 
   return (
@@ -13,6 +13,7 @@ const Header = () => {
       <SettingsModal
         modalVisible={settingsModalVisible}
         setModalVisible={setSettingsModalVisible}
+        setDrinkAdded={setDrinkAdded}
       />
       <View style={tw`p-8`}>
         <Text style={tw`text-white text-xl`}>Elixir!</Text>
