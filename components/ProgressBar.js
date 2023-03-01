@@ -5,7 +5,7 @@ import {
   Animated,
   StyleSheet,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import tw from "twrnc";
 import {
   ChevronRightIcon,
@@ -14,7 +14,8 @@ import {
 import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
-import { animated, useSpring } from "@react-spring/web";
+import { getDateData } from "../utils/getDateData";
+import { animated, useSpring, useSpringRef } from "@react-spring/web";
 
 const ProgressBar = ({
   userId,
@@ -47,69 +48,72 @@ const ProgressBar = ({
     return <AnimatedText>{number.to((to) => to.toFixed(0))}</AnimatedText>;
   }
 
-  useEffect(() => {
-    getSettings(userId).then((data) => {
-      // save the initial/current size settings size options (from the database) for this user
-      setTarget(data.targetAmount);
-    });
-
-    // calculate the total fluid intake/amount for the day
-    let totalAmount = 0;
-    for (const item of drinkList) {
-      totalAmount += item.value;
-    }
-
-    // console.log("this is the total amount", totalAmount);
-    // set the total
-    if (total === 0) {
-      setPreviousTotal(0);
-    } else {
-      setPreviousTotal(total);
-    }
-    setTotal(totalAmount);
-
-    setNumberCounter([
-      Math.round((total / target) * 100),
-      Math.round((totalAmount / target) * 100),
-    ]);
-  }, [drinkList, drinkAddedAnimation]);
-
   let percentageString = 0;
   let previousPercentageString = 0;
   let percentageString2 = 0;
   let previousPercentageString2 = 0;
 
+  useEffect(() => {
+    getSettings(userId).then((data) => {
+      // save the initial/current size settings size options (from the database) for this user
+      const targetAmount = data.targetAmount;
+      setTarget(targetAmount);
+
+      const today = new Date().toISOString().slice(0, 10);
+      let totalAmount = 0;
+
+      getDateData(userId, today).then((data) => {
+        // if there are drinks in the drink list
+        if (data !== undefined) {
+          for (let i = 0; i < data.drinks.length; i++) {
+            totalAmount += data.drinks[i].value;
+          }
+        }
+
+        // set the total
+        if (total === 0) {
+          setPreviousTotal(0);
+        } else {
+          setPreviousTotal(total);
+        }
+
+        setTotal(totalAmount);
+
+        setNumberCounter([
+          Math.round((total / target) * 100),
+          Math.round((totalAmount / target) * 100),
+        ]);
+
+        if (totalAmount === 0) {
+          // used to set the positioning of the SVGs so that the water is at a correct height
+          percentageString = "-5%";
+          percentageString2 = "-6%";
+          previousPercentageString = "-6%";
+          previousPercentageString2 = "-7%";
+        } else {
+          // used to set the positioning of the SVGs so that the water is at a correct height when user starts adding drinks
+          percentageString =
+            Math.round((totalAmount / targetAmount) * 100 - 5).toString() + "%";
+          percentageString2 =
+            Math.round((totalAmount / targetAmount) * 100 - 6).toString() + "%";
+
+          previousPercentageString =
+            Math.round((total / targetAmount) * 100 - 5).toString() + "%";
+          previousPercentageString2 =
+            Math.round((total / targetAmount) * 100 - 6).toString() + "%";
+        }
+
+        // console.log("ok", previousPercentageString2, percentageString2);
+        // console.log(previousPercentageString, percentageString);
+
+        setOutputRange([previousPercentageString, percentageString]);
+        setOutputRange2([previousPercentageString2, percentageString2]);
+      });
+    });
+  }, [drinkAdded]);
+
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
-    if (total === 0) {
-      // used to set the positioning of the SVGs so that the water is at a correct height
-      percentageString = "-5%";
-      percentageString2 = "-6%";
-      previousPercentageString = "-6%";
-      previousPercentageString2 = "-7%";
-    } else {
-      // used to set the positioning of the SVGs so that the water is at a correct height when user starts adding drinks
-      percentageString =
-        Math.round((total / target) * 100 - 5).toString() + "%";
-      percentageString2 =
-        Math.round((total / target) * 100 - 6).toString() + "%";
-
-      previousPercentageString =
-        Math.round((previousTotal / target) * 100 - 5).toString() + "%";
-      previousPercentageString2 =
-        Math.round((previousTotal / target) * 100 - 6).toString() + "%";
-    }
-
-    // console.log("ok", previousPercentageString2, percentageString2);
-    // console.log(previousPercentageString, percentageString);
-
-    // setOutputRange([previousPercentageString, percentageString]);
-    // setOutputRange2([previousPercentageString2, percentageString2]);
-
-    setOutputRange([previousPercentageString, percentageString]);
-    setOutputRange2([previousPercentageString2, percentageString2]);
-
-    // animate the popping and water animation
     animateElement();
   }, [total]);
 
@@ -125,6 +129,13 @@ const ProgressBar = ({
   });
 
   const waterStyle = { bottom: waters };
+
+  console.log(numberCounter);
+  // having this useEffect separately prevents some lag?
+  // useEffect(() => {
+  //   // animate the popping and water animation
+  //   animateElement();
+  // }, [total]);
 
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
@@ -144,7 +155,6 @@ const ProgressBar = ({
             )}
             <Text>%</Text>
           </Text>
-
           <Text style={tw`text-white text-base z-10`}>
             {total / 1000} of {target / 1000} L
           </Text>

@@ -14,11 +14,15 @@
     "@react-spring/web": "^9.6.1",
     "email-validator": "^2.0.4",
     "expo": "~47.0.8",
+    "expo-app-loading": "~2.1.1",
     "expo-cli": "^6.0.8",
+    "expo-font": "~11.0.1",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.15.0",
     "moment": "^2.29.4",
     "react": "18.1.0",
+    "react-animated-number": "^0.4.4",
     "react-dom": "^18.2.0",
     "react-native": "0.70.5",
     "react-native-animated-numbers": "^0.4.1",
@@ -39,9 +43,7 @@
     "react-spring": "^9.6.1",
     "styled-components": "^5.3.6",
     "twrnc": "^3.5.0",
-    "expo-font": "~11.0.1",
-    "expo-app-loading": "~2.1.1",
-    "expo-splash-screen": "~0.17.5"
+    "use-count-up": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
