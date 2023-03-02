@@ -117,7 +117,6 @@ const HomeScreen = () => {
       <PreviousDrinks
         userId={userId}
         drinkList={drinkList}
-        setDrinkAddedAnimation={setDrinkAddedAnimation}
         setDrinkAdded={setDrinkAdded}
       />
     </SafeAreaView>
