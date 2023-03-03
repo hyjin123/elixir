@@ -15,7 +15,7 @@ const Header = ({ setDrinkAdded }) => {
         setModalVisible={setSettingsModalVisible}
         setDrinkAdded={setDrinkAdded}
       />
-      <View style={tw`py-8`}>
+      <View style={tw`pt-8 pb-10`}>
         <Text
           style={tw`text-white text-3xl italic font-extrabold tracking-wide`}
         >

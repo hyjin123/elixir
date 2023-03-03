@@ -139,6 +139,11 @@ const ProgressBar = ({
     }
   };
 
+  // runs when a user clicks on the right awrrow to go forward a day
+  const handleRight = () => {};
+
+  // runs when a user clicks on the left arrow to go back a day
+  const handleLeft = () => {};
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
       <TouchableOpacity style={tw`ml-5`}>
@@ -146,6 +151,9 @@ const ProgressBar = ({
       </TouchableOpacity>
       <ProgressContainer>
         <Animated.View style={[styles.circle, opacityStyle]} />
+        <View style={tw`absolute -top-3 z-30 bg-white px-3 py-1 rounded-xl `}>
+          <Text style={tw`text-black`}>Today</Text>
+        </View>
         <Progress>
           <Text style={tw`text-white text-6xl font-extrabold z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
@@ -204,6 +212,8 @@ const Progress = styled(Animated.View)`
 `;
 
 const ProgressContainer = styled(Animated.View)`
+  display: flex;
+  align-items: center;
   border: 3px solid white;
   border-radius: 130px;
 `;
