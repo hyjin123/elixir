@@ -81,7 +81,7 @@ const HomeScreen = () => {
         }
       });
     });
-  }, [drinkAdded]);
+  }, [drinkAdded, date]);
 
   return (
     <SafeAreaView style={tw`bg-[#121212] flex-1`}>

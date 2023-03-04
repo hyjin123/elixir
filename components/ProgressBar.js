@@ -155,7 +155,6 @@ const ProgressBar = ({
     setDate(newDateFormatted);
   };
 
-  console.log(date);
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
       <TouchableOpacity onPress={handleLeft} style={tw`ml-5`}>
