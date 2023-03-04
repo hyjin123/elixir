@@ -141,6 +141,22 @@ const ProgressBar = ({
     }
   };
 
+  const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   // runs when a user clicks on the right awrrow to go forward a day
   const handleRight = () => {
     const newDate = date.setDate(date.getDate() + 1);
@@ -167,7 +183,11 @@ const ProgressBar = ({
             {new Date().toISOString().slice(0, 10) ===
             date.toISOString().slice(0, 10)
               ? "Today"
-              : date.toISOString().slice(0, 10)}
+              : days[date.getDay()] +
+                ", " +
+                months[date.getMonth()] +
+                " " +
+                date.getDate()}
           </Text>
         </View>
         <Progress>

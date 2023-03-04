@@ -72,6 +72,9 @@ const HomeScreen = () => {
         for (const item of data.drinks) {
           totalAmount += item.value;
         }
+      } else {
+        // if there are NO drinks in the drink list for that date, set it to empty
+        setDrinkList([]);
       }
 
       // get the target amount, if total amount exceeds the target amount, release the confetti
