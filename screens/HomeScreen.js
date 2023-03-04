@@ -16,6 +16,8 @@ const HomeScreen = () => {
   const [drinkAdded, setDrinkAdded] = useState(0);
   const [drinkAddedAnimation, setDrinkAddedAnimation] = useState(0);
   const [drinkList, setDrinkList] = useState([]);
+  // set the initial date to today so it initially displays today's data
+  const [date, setDate] = useState(new Date());
 
   // const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeAnim = useState(new Animated.Value(0))[0]; // Makes animated value
@@ -59,10 +61,11 @@ const HomeScreen = () => {
 
   // get all the drink data from today
   useEffect(() => {
-    const today = new Date().toISOString().slice(0, 10);
     let totalAmount = 0;
 
-    getDateData(userId, today).then((data) => {
+    const dateString = date.toISOString().slice(0, 10);
+
+    getDateData(userId, dateString).then((data) => {
       // if there are drinks in the drink list
       if (data !== undefined) {
         setDrinkList(data.drinks);
@@ -108,16 +111,20 @@ const HomeScreen = () => {
         animateElement={animateElement}
         drinkAdded={drinkAdded}
         drinkAddedAnimation={drinkAddedAnimation}
+        date={date}
+        setDate={setDate}
       />
       <AddDrink
         userId={userId}
         setDrinkAdded={setDrinkAdded}
         setDrinkAddedAnimation={setDrinkAddedAnimation}
+        date={date}
       />
       <PreviousDrinks
         userId={userId}
         drinkList={drinkList}
         setDrinkAdded={setDrinkAdded}
+        date={date}
       />
     </SafeAreaView>
   );

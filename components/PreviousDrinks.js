@@ -17,7 +17,7 @@ import TimeAgo from "react-native-timeago";
 import { db } from "../firebase";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 
-const PreviousDrinks = ({ drinkList, userId, setDrinkAdded }) => {
+const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
   const [toggle, setToggle] = useState(null);
   const [selectedDrinkIndex, setSelectedDrinkIndex] = useState("");
 
@@ -75,10 +75,9 @@ const PreviousDrinks = ({ drinkList, userId, setDrinkAdded }) => {
 
   // handle if a user deletes one of the previous drinks from the list
   const handleDelete = async (item) => {
-    // get today's date, in yyyy-mm-dd format
-    let today = new Date().toISOString().slice(0, 10);
+    const dateString = date.toISOString().slice(0, 10);
 
-    const docRef = doc(db, "users", userId, "dates", today);
+    const docRef = doc(db, "users", userId, "dates", dateString);
 
     // remove item that matches in the drinks array in firebase
     await updateDoc(docRef, {

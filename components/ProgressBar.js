@@ -25,6 +25,8 @@ const ProgressBar = ({
   animateElement,
   drinkAdded,
   drinkAddedAnimation,
+  date,
+  setDate,
 }) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
@@ -140,19 +142,34 @@ const ProgressBar = ({
   };
 
   // runs when a user clicks on the right awrrow to go forward a day
-  const handleRight = () => {};
+  const handleRight = () => {
+    const newDate = date.setDate(date.getDate() + 1);
+    const newDateFormatted = new Date(newDate);
+    setDate(newDateFormatted);
+  };
 
   // runs when a user clicks on the left arrow to go back a day
-  const handleLeft = () => {};
+  const handleLeft = () => {
+    const newDate = date.setDate(date.getDate() - 1);
+    const newDateFormatted = new Date(newDate);
+    setDate(newDateFormatted);
+  };
+
+  console.log(date);
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
-      <TouchableOpacity style={tw`ml-5`}>
+      <TouchableOpacity onPress={handleLeft} style={tw`ml-5`}>
         <ChevronLeftIcon color="white" />
       </TouchableOpacity>
       <ProgressContainer>
         <Animated.View style={[styles.circle, opacityStyle]} />
         <View style={tw`absolute -top-3 z-30 bg-white px-3 py-1 rounded-xl `}>
-          <Text style={tw`text-black`}>Today</Text>
+          <Text style={tw`text-black`}>
+            {new Date().toISOString().slice(0, 10) ===
+            date.toISOString().slice(0, 10)
+              ? "Today"
+              : date.toISOString().slice(0, 10)}
+          </Text>
         </View>
         <Progress>
           <Text style={tw`text-white text-6xl font-extrabold z-10`}>
@@ -188,9 +205,16 @@ const ProgressBar = ({
           </AnimatedSVG>
         </Progress>
       </ProgressContainer>
-      <TouchableOpacity style={tw`mr-5`}>
-        <ChevronRightIcon color="white" />
-      </TouchableOpacity>
+      {new Date().toISOString().slice(0, 10) ===
+      date.toISOString().slice(0, 10) ? (
+        <TouchableOpacity style={tw`mr-5`} disabled={true}>
+          <ChevronRightIcon color="#4f4f4f" />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={handleRight} style={tw`mr-5`}>
+          <ChevronRightIcon color="white" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

@@ -10,7 +10,7 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation }) => {
+const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation, date }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -24,17 +24,18 @@ const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation }) => {
     // this triggers the water, popping, and number counter animation as soon as the button is clicked
     setDrinkAddedAnimation((current) => current + 1);
 
-    // get today's date, in yyyy-mm-dd format
-    let today = new Date().toISOString().slice(0, 10);
+    const dateString = date.toISOString().slice(0, 10);
 
     // check if there is dates collection for today's date yet
-    const todayData = await getDoc(doc(db, "users", userId, "dates", today));
+    const todayData = await getDoc(
+      doc(db, "users", userId, "dates", dateString)
+    );
 
-    const docRef = doc(db, "users", userId, "dates", today);
+    const docRef = doc(db, "users", userId, "dates", dateString);
 
     // if there is already data for today, add to the existing drinks array
     if (todayData.data()) {
-      await updateDoc(doc(db, "users", userId, "dates", today), {
+      await updateDoc(doc(db, "users", userId, "dates", dateString), {
         drinks: arrayUnion({
           type: selectedType,
           name: selectedSizeName,
@@ -47,7 +48,7 @@ const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation }) => {
       await setDoc(
         docRef,
         {
-          date: new Date(),
+          date: dateString,
           drinks: [
             {
               type: selectedType,
