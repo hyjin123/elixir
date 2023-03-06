@@ -70,7 +70,7 @@ const ProgressBar = ({
 
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
-    if (total === 0) {
+    if (total === 0 && previousTotal === 0) {
       // used to set the positioning of the SVGs so that the water is at a correct height
       percentageString = "-5%";
       percentageString2 = "-6%";
@@ -112,7 +112,7 @@ const ProgressBar = ({
 
   const waterStyle = { bottom: waters };
 
-  console.log(numberCounter, previousTotal, total);
+  console.log("this is total", total, "this is previous", previousTotal);
 
   // having this useEffect separately prevents some lag?
   // useEffect(() => {
@@ -131,14 +131,15 @@ const ProgressBar = ({
   }
 
   const animation = () => {
-    if (
-      numberCounter[1] === Math.round((total / target) * 100) &&
-      numberCounter[0] === Math.round((previousTotal / target) * 100)
-    ) {
-      return <Number from={numberCounter[0]} to={numberCounter[1]} />;
-    } else {
-      return <></>;
-    }
+    return <Number from={numberCounter[0]} to={numberCounter[1]} />;
+    // if (
+    //   numberCounter[1] === Math.round((total / target) * 100) &&
+    //   numberCounter[0] === Math.round((previousTotal / target) * 100)
+    // ) {
+    //   return <Number from={numberCounter[0]} to={numberCounter[1]} />;
+    // } else {
+    //   return <></>;
+    // }
   };
 
   const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -174,12 +175,12 @@ const ProgressBar = ({
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
       <TouchableOpacity onPress={handleLeft} style={tw`ml-5`}>
-        <ChevronLeftIcon color="white" />
+        <ChevronLeftIcon color="white" size={34} />
       </TouchableOpacity>
       <ProgressContainer>
         <Animated.View style={[styles.circle, opacityStyle]} />
         <View style={tw`absolute -top-3 z-30 bg-white px-3 py-1 rounded-xl `}>
-          <Text style={tw`text-black`}>
+          <Text style={tw`text-black text-sm`}>
             {new Date().toISOString().slice(0, 10) ===
             date.toISOString().slice(0, 10)
               ? "Today"
@@ -194,7 +195,8 @@ const ProgressBar = ({
           <Text style={tw`text-white text-6xl font-extrabold z-10`}>
             {/* Show the percentage of your drink total out of your daily target */}
             {/* if the total amount of fluid is 0, display 0% or else it will show NaN% */}
-            {total === 0 ? <Text>0</Text> : animation()}
+            {/* {total === 0 ? <Text>0</Text> : animation()} */}
+            {animation()}
             <Text>%</Text>
           </Text>
           <Text style={tw`text-white text-base z-10`}>
@@ -227,11 +229,11 @@ const ProgressBar = ({
       {new Date().toISOString().slice(0, 10) ===
       date.toISOString().slice(0, 10) ? (
         <TouchableOpacity style={tw`mr-5`} disabled={true}>
-          <ChevronRightIcon color="#4f4f4f" />
+          <ChevronRightIcon color="#4f4f4f" size={34} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity onPress={handleRight} style={tw`mr-5`}>
-          <ChevronRightIcon color="white" />
+          <ChevronRightIcon color="white" size={34} />
         </TouchableOpacity>
       )}
     </View>
