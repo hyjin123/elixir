@@ -15,7 +15,7 @@ import styled from "styled-components/native";
 import Svg, { Path, Rect } from "react-native-svg";
 import { getSettings } from "../utils/getSettings";
 import { getDateData } from "../utils/getDateData";
-import { animated, useSpring, useSpringRef } from "@react-spring/web";
+import { animated, useSpring } from "@react-spring/web";
 
 const ProgressBar = ({
   userId,
@@ -35,7 +35,6 @@ const ProgressBar = ({
   const [outputRange, setOutputRange] = useState([0, 1]);
   const [outputRange2, setOutputRange2] = useState([0, 1]);
   const [numberCounter, setNumberCounter] = useState([0, 0]);
-  const firstRender = useRef(true);
   const AnimatedSVG = Animated.createAnimatedComponent(Svg);
   // the number counter is using react-spring library and not react native animation
   const AnimatedText = animated(Text);
@@ -53,7 +52,6 @@ const ProgressBar = ({
     }
 
     // set the total and previous total
-
     setPreviousTotal(total);
     setTotal(totalAmount);
 
@@ -97,7 +95,7 @@ const ProgressBar = ({
 
     // animate the popping and water animation
     animateElement();
-  }, [total]);
+  }, [total, target]);
 
   // determine the start and end value for the opacity css
   const water = waterAnim.interpolate({
@@ -112,7 +110,14 @@ const ProgressBar = ({
 
   const waterStyle = { bottom: waters };
 
-  console.log("this is total", total, "this is previous", previousTotal);
+  console.log(
+    "this is total",
+    total,
+    "this is previous",
+    previousTotal,
+    "this is target",
+    target
+  );
 
   // having this useEffect separately prevents some lag?
   // useEffect(() => {
