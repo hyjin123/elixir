@@ -44,7 +44,7 @@ const HomeScreen = () => {
   // determine the start and end value for the scale css
   const spinDeg = fadeAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 4.5],
+    outputRange: [0, 6],
   });
 
   // determine the start and end value for the opacity css
@@ -69,6 +69,7 @@ const HomeScreen = () => {
       // if there are drinks in the drink list
       if (data !== undefined) {
         setDrinkList(data.drinks);
+        console.log(data.drinks);
         for (const item of data.drinks) {
           totalAmount += item.value;
         }
@@ -119,12 +120,15 @@ const HomeScreen = () => {
       />
       <AddDrink
         userId={userId}
+        setDrinkList={setDrinkList}
+        drinkList={drinkList}
         setDrinkAdded={setDrinkAdded}
         setDrinkAddedAnimation={setDrinkAddedAnimation}
         date={date}
       />
       <PreviousDrinks
         userId={userId}
+        setDrinkList={setDrinkList}
         drinkList={drinkList}
         setDrinkAdded={setDrinkAdded}
         date={date}

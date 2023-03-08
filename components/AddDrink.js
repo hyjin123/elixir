@@ -10,7 +10,14 @@ import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 
-const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation, date }) => {
+const AddDrink = ({
+  userId,
+  drinkList,
+  setDrinkList,
+  setDrinkAdded,
+  setDrinkAddedAnimation,
+  date,
+}) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 
@@ -61,6 +68,19 @@ const AddDrink = ({ userId, setDrinkAdded, setDrinkAddedAnimation, date }) => {
         { merge: true }
       );
     }
+
+    // add the drink to the drinklist state
+    setDrinkList((current) => {
+      const newState = [...current];
+      newState.push({
+        type: selectedType,
+        name: selectedSizeName,
+        value: selectedSizeAmount,
+        timestamp: new Date(),
+      });
+      return newState;
+    });
+
     // used to render previous drink component when a new drink is added, this needs to go in the end, if not, the first drink wont be counted
     setDrinkAdded((current) => current + 1);
   };

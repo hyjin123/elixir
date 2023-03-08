@@ -110,20 +110,14 @@ const ProgressBar = ({
 
   const waterStyle = { bottom: waters };
 
-  console.log(
-    "this is total",
-    total,
-    "this is previous",
-    previousTotal,
-    "this is target",
-    target
-  );
-
-  // having this useEffect separately prevents some lag?
-  // useEffect(() => {
-  //   // animate the popping and water animation
-  //   animateElement();
-  // }, [total]);
+  // console.log(
+  //   "this is total",
+  //   total,
+  //   "this is previous",
+  //   previousTotal,
+  //   "this is target",
+  //   target
+  // );
 
   // react- spring for the number counter animation
   function Number({ from, to }) {
@@ -137,14 +131,6 @@ const ProgressBar = ({
 
   const animation = () => {
     return <Number from={numberCounter[0]} to={numberCounter[1]} />;
-    // if (
-    //   numberCounter[1] === Math.round((total / target) * 100) &&
-    //   numberCounter[0] === Math.round((previousTotal / target) * 100)
-    // ) {
-    //   return <Number from={numberCounter[0]} to={numberCounter[1]} />;
-    // } else {
-    //   return <></>;
-    // }
   };
 
   const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
