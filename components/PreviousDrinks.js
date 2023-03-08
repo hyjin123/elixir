@@ -89,6 +89,15 @@ const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
       }),
     });
 
+    // delete the drink from the drinklist state
+    setDrinkList((current) => {
+      const newState = [...current];
+      for (let i = 0; i < newState.length; i++) {
+        let obj = newState[i];
+      }
+      return newState;
+    });
+
     // re-render after user deletes a drink
     setDrinkAdded((current) => current + 1);
 
@@ -115,6 +124,7 @@ const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
             </Text>
             <Text style={tw`text-[#696868] text-xs`}>
               <TimeAgo time={new Date(item.timestamp.seconds * 1000)} />
+              {/* <TimeAgo time={item.timestamp.toDate()} /> */}
             </Text>
           </TouchableOpacity>
           {selectedDrinkIndex === index ? (

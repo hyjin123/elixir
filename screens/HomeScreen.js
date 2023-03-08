@@ -69,7 +69,6 @@ const HomeScreen = () => {
       // if there are drinks in the drink list
       if (data !== undefined) {
         setDrinkList(data.drinks);
-        console.log(data.drinks);
         for (const item of data.drinks) {
           totalAmount += item.value;
         }
