@@ -59,7 +59,7 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList, drinkAdded, drinkAddedAnimation]);
+  }, [drinkList, drinkAddedAnimation]);
 
   let percentageString = 0;
   let previousPercentageString = 0;

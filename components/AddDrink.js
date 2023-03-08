@@ -8,7 +8,14 @@ import { Entypo } from "@expo/vector-icons";
 import ChooseSizeModal from "./ChooseSizeModal";
 import ChooseTypeModal from "./ChooseTypeModal";
 import { db } from "../firebase";
-import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  getDoc,
+  Timestamp,
+} from "firebase/firestore";
 
 const AddDrink = ({
   userId,
@@ -47,7 +54,7 @@ const AddDrink = ({
           type: selectedType,
           name: selectedSizeName,
           value: selectedSizeAmount,
-          timestamp: new Date(),
+          timestamp: Timestamp.now(),
         }),
       });
     } else {
@@ -61,7 +68,7 @@ const AddDrink = ({
               type: selectedType,
               name: selectedSizeName,
               value: selectedSizeAmount,
-              timestamp: new Date(),
+              timestamp: Timestamp.now(),
             },
           ],
         },
@@ -76,13 +83,13 @@ const AddDrink = ({
         type: selectedType,
         name: selectedSizeName,
         value: selectedSizeAmount,
-        timestamp: new Date(),
+        timestamp: Timestamp.now(),
       });
       return newState;
     });
 
     // used to render previous drink component when a new drink is added, this needs to go in the end, if not, the first drink wont be counted
-    setDrinkAdded((current) => current + 1);
+    // setDrinkAdded((current) => current + 1);
   };
 
   return (

@@ -114,7 +114,7 @@ const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
               <Text style={tw`text-xs`}> ({item.value} ml)</Text>
             </Text>
             <Text style={tw`text-[#696868] text-xs`}>
-              <TimeAgo time={item.timestamp.toDate()} />
+              <TimeAgo time={new Date(item.timestamp.seconds * 1000)} />
             </Text>
           </TouchableOpacity>
           {selectedDrinkIndex === index ? (
