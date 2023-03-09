@@ -63,7 +63,11 @@ const HomeScreen = () => {
   useEffect(() => {
     let totalAmount = 0;
 
-    const dateString = date.toISOString().slice(0, 10);
+    const dateString = date
+      .toString("en-US", {
+        timeZone: "America/New_York",
+      })
+      .slice(0, 15);
 
     getDateData(userId, dateString).then((data) => {
       // if there are drinks in the drink list

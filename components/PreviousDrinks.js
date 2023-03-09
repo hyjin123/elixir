@@ -17,7 +17,13 @@ import TimeAgo from "react-native-timeago";
 import { db } from "../firebase";
 import { doc, updateDoc, arrayRemove } from "firebase/firestore";
 
-const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
+const PreviousDrinks = ({
+  setDrinkList,
+  drinkList,
+  userId,
+  setDrinkAdded,
+  date,
+}) => {
   const [toggle, setToggle] = useState(null);
   const [selectedDrinkIndex, setSelectedDrinkIndex] = useState("");
 
@@ -75,35 +81,36 @@ const PreviousDrinks = ({ drinkList, userId, setDrinkAdded, date }) => {
 
   // handle if a user deletes one of the previous drinks from the list
   const handleDelete = async (item) => {
-    const dateString = date.toISOString().slice(0, 10);
+    const dateString = date
+      .toString("en-US", {
+        timeZone: "America/New_York",
+      })
+      .slice(0, 15);
 
     const docRef = doc(db, "users", userId, "dates", dateString);
 
     // remove item that matches in the drinks array in firebase
     await updateDoc(docRef, {
-      drinks: arrayRemove({
-        name: item.name,
-        timestamp: item.timestamp,
-        type: item.type,
-        value: item.value,
-      }),
+      drinks: arrayRemove(item),
     });
 
     // delete the drink from the drinklist state
     setDrinkList((current) => {
       const newState = [...current];
-      for (let i = 0; i < newState.length; i++) {
-        let obj = newState[i];
-      }
-      return newState;
+      const updatedState = newState.filter(
+        (drink) => drink.timestamp.seconds !== item.timestamp.seconds
+      );
+      return updatedState;
     });
 
     // re-render after user deletes a drink
-    setDrinkAdded((current) => current + 1);
+    // setDrinkAdded((current) => current + 1);
 
     // set the selected drink to nothing since it was deleted
     setSelectedDrinkIndex("");
   };
+
+  console.log(drinkList);
 
   // map all the drinks and display them in a list
   const mappedData = () => {

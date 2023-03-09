@@ -38,20 +38,24 @@ const AddDrink = ({
     // this triggers the water, popping, and number counter animation as soon as the button is clicked
     setDrinkAddedAnimation((current) => current + 1);
 
-    const dateString = date.toISOString().slice(0, 10);
+    const dateString = date
+      .toString("en-US", {
+        timeZone: "America/New_York",
+      })
+      .slice(0, 15);
 
+    console.log("this is date", dateString);
     // check if there is dates collection for today's date yet
     const todayData = await getDoc(
       doc(db, "users", userId, "dates", dateString)
     );
 
     const docRef = doc(db, "users", userId, "dates", dateString);
-    console.log(drinkList.length);
+
     // if there is already data for today, add to the existing drinks array
     if (todayData.data()) {
       await updateDoc(doc(db, "users", userId, "dates", dateString), {
         drinks: arrayUnion({
-          id: drinkList.length,
           type: selectedType,
           name: selectedSizeName,
           value: selectedSizeAmount,
@@ -66,7 +70,6 @@ const AddDrink = ({
           date: dateString,
           drinks: [
             {
-              id: drinkList.length,
               type: selectedType,
               name: selectedSizeName,
               value: selectedSizeAmount,
@@ -82,7 +85,6 @@ const AddDrink = ({
     setDrinkList((current) => {
       const newState = [...current];
       newState.push({
-        id: drinkList.length,
         type: selectedType,
         name: selectedSizeName,
         value: selectedSizeAmount,

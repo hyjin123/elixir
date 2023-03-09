@@ -163,6 +163,14 @@ const ProgressBar = ({
     setDate(newDateFormatted);
   };
 
+  // this is used to display the date in the progress bar
+  const dateArray = date
+    .toString("en-US", {
+      timeZone: "America/New_York",
+    })
+    .slice(0, 10)
+    .split(" ");
+
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
       <TouchableOpacity onPress={handleLeft} style={tw`ml-5`}>
@@ -172,14 +180,18 @@ const ProgressBar = ({
         <Animated.View style={[styles.circle, opacityStyle]} />
         <View style={tw`absolute -top-3 z-30 bg-white px-3 py-1 rounded-xl `}>
           <Text style={tw`text-black text-sm`}>
-            {new Date().toISOString().slice(0, 10) ===
-            date.toISOString().slice(0, 10)
+            {new Date()
+              .toString("en-US", {
+                timeZone: "America/New_York",
+              })
+              .slice(0, 15) ===
+            date
+              .toString("en-US", {
+                timeZone: "America/New_York",
+              })
+              .slice(0, 15)
               ? "Today"
-              : days[date.getDay()] +
-                ", " +
-                months[date.getMonth()] +
-                " " +
-                date.getDate()}
+              : dateArray[0] + ", " + dateArray[1] + " " + dateArray[2]}
           </Text>
         </View>
         <Progress>
@@ -217,8 +229,8 @@ const ProgressBar = ({
           </AnimatedSVG>
         </Progress>
       </ProgressContainer>
-      {new Date().toISOString().slice(0, 10) ===
-      date.toISOString().slice(0, 10) ? (
+      {new Date().toLocaleString().slice(0, 10) ===
+      date.toLocaleString().slice(0, 10) ? (
         <TouchableOpacity style={tw`mr-5`} disabled={true}>
           <ChevronRightIcon color="#4f4f4f" size={34} />
         </TouchableOpacity>
