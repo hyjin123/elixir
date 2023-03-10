@@ -36,7 +36,7 @@ const AddDrink = ({
 
   const handleAdd = async () => {
     // this triggers the water, popping, and number counter animation as soon as the button is clicked
-    setDrinkAddedAnimation((current) => current + 1);
+    // setDrinkAddedAnimation((current) => current + 1);
 
     const dateString = date
       .toString("en-US", {
@@ -44,7 +44,6 @@ const AddDrink = ({
       })
       .slice(0, 15);
 
-    console.log("this is date", dateString);
     // check if there is dates collection for today's date yet
     const todayData = await getDoc(
       doc(db, "users", userId, "dates", dateString)

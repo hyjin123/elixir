@@ -59,7 +59,7 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList, drinkAddedAnimation]);
+  }, [drinkList]);
 
   let percentageString = 0;
   let previousPercentageString = 0;
@@ -109,15 +109,6 @@ const ProgressBar = ({
   });
 
   const waterStyle = { bottom: waters };
-
-  // console.log(
-  //   "this is total",
-  //   total,
-  //   "this is previous",
-  //   previousTotal,
-  //   "this is target",
-  //   target
-  // );
 
   // react- spring for the number counter animation
   function Number({ from, to }) {

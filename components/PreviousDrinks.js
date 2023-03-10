@@ -89,6 +89,9 @@ const PreviousDrinks = ({
 
     const docRef = doc(db, "users", userId, "dates", dateString);
 
+    console.log("this is item", item);
+    console.log("this is data", drinkList);
+
     // remove item that matches in the drinks array in firebase
     await updateDoc(docRef, {
       drinks: arrayRemove(item),
@@ -109,8 +112,6 @@ const PreviousDrinks = ({
     // set the selected drink to nothing since it was deleted
     setSelectedDrinkIndex("");
   };
-
-  console.log(drinkList);
 
   // map all the drinks and display them in a list
   const mappedData = () => {
