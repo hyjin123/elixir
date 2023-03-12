@@ -15,7 +15,7 @@ import {
 import { TrashIcon } from "react-native-heroicons/outline";
 import TimeAgo from "react-native-timeago";
 import { db } from "../firebase";
-import { doc, updateDoc, arrayRemove } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const PreviousDrinks = ({
   setDrinkList,
@@ -89,13 +89,34 @@ const PreviousDrinks = ({
 
     const docRef = doc(db, "users", userId, "dates", dateString);
 
-    console.log("this is item", item);
-    console.log("this is data", drinkList);
+    // console.log("this is item", item);
+    // console.log("this is data", drinkList);
+    // console.log(item === drinkList[2]);
 
     // remove item that matches in the drinks array in firebase
-    await updateDoc(docRef, {
-      drinks: arrayRemove(item),
-    });
+    // await updateDoc(docRef, {
+    //   drinks: arrayRemove({
+    //     name: item.name,
+    //     timestamp: item.timestamp,
+    //     type: item.type,
+    //     value: item.value,
+    //   }),
+    // });
+
+    // create a copy of the drink list
+    const copyDrinkList = [...drinkList];
+
+    const newDrinkList = copyDrinkList.filter(
+      (drink) => drink.timestamp.seconds !== item.timestamp.seconds
+    );
+
+    await setDoc(
+      docRef,
+      {
+        drinks: newDrinkList,
+      },
+      { merge: true }
+    );
 
     // delete the drink from the drinklist state
     setDrinkList((current) => {
