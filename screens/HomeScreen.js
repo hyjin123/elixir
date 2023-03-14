@@ -116,6 +116,7 @@ const HomeScreen = () => {
         waterAnim={waterAnim}
         opacityStyle={opacityStyle}
         animateElement={animateElement}
+        setDrinkAdded={setDrinkAdded}
         drinkAdded={drinkAdded}
         drinkAddedAnimation={drinkAddedAnimation}
         date={date}

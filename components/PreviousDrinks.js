@@ -106,10 +106,12 @@ const PreviousDrinks = ({
     // create a copy of the drink list
     const copyDrinkList = [...drinkList];
 
+    // filter out the deleted drink
     const newDrinkList = copyDrinkList.filter(
       (drink) => drink.timestamp.seconds !== item.timestamp.seconds
     );
 
+    // set the drinks array with the new filtered array as "arrayRemove" did not work
     await setDoc(
       docRef,
       {

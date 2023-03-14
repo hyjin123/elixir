@@ -23,6 +23,7 @@ const ProgressBar = ({
   waterAnim,
   opacityStyle,
   animateElement,
+  setDrinkAdded,
   drinkAdded,
   drinkAddedAnimation,
   date,
@@ -59,7 +60,7 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList]);
+  }, [drinkList, drinkAdded]);
 
   let percentageString = 0;
   let previousPercentageString = 0;
@@ -124,27 +125,12 @@ const ProgressBar = ({
     return <Number from={numberCounter[0]} to={numberCounter[1]} />;
   };
 
-  const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   // runs when a user clicks on the right awrrow to go forward a day
   const handleRight = () => {
     const newDate = date.setDate(date.getDate() + 1);
     const newDateFormatted = new Date(newDate);
     setDate(newDateFormatted);
+    setDrinkAdded((current) => current + 1);
   };
 
   // runs when a user clicks on the left arrow to go back a day
@@ -152,6 +138,7 @@ const ProgressBar = ({
     const newDate = date.setDate(date.getDate() - 1);
     const newDateFormatted = new Date(newDate);
     setDate(newDateFormatted);
+    setDrinkAdded((current) => current + 1);
   };
 
   // this is used to display the date in the progress bar
@@ -161,6 +148,8 @@ const ProgressBar = ({
     })
     .slice(0, 10)
     .split(" ");
+
+  console.log(numberCounter);
 
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
