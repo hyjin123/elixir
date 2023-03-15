@@ -25,9 +25,9 @@ const ProgressBar = ({
   animateElement,
   setDrinkAdded,
   drinkAdded,
-  drinkAddedAnimation,
   date,
   setDate,
+  confetti,
 }) => {
   const [target, setTarget] = useState(0);
   const [previousTotal, setPreviousTotal] = useState(0);
@@ -52,6 +52,10 @@ const ProgressBar = ({
     let totalAmount = 0;
     for (const item of drinkList) {
       totalAmount += item.value;
+    }
+
+    if (totalAmount >= target) {
+      confetti.current.start();
     }
 
     // set the total and previous total

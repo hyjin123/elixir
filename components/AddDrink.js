@@ -17,14 +17,7 @@ import {
   Timestamp,
 } from "firebase/firestore";
 
-const AddDrink = ({
-  userId,
-  drinkList,
-  setDrinkList,
-  setDrinkAdded,
-  setDrinkAddedAnimation,
-  date,
-}) => {
+const AddDrink = ({ userId, setDrinkList, date }) => {
   const [cupModalVisible, setCupModalVisible] = useState(false);
   const [typeModalVisible, setTypeModalVisible] = useState(false);
 

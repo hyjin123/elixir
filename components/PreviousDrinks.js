@@ -17,13 +17,7 @@ import TimeAgo from "react-native-timeago";
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 
-const PreviousDrinks = ({
-  setDrinkList,
-  drinkList,
-  userId,
-  setDrinkAdded,
-  date,
-}) => {
+const PreviousDrinks = ({ setDrinkList, drinkList, userId, date }) => {
   const [toggle, setToggle] = useState(null);
   const [selectedDrinkIndex, setSelectedDrinkIndex] = useState("");
 

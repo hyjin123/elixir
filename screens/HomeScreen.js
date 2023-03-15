@@ -121,6 +121,7 @@ const HomeScreen = () => {
         drinkAddedAnimation={drinkAddedAnimation}
         date={date}
         setDate={setDate}
+        confetti={confetti}
       />
       <AddDrink
         userId={userId}
