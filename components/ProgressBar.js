@@ -46,7 +46,9 @@ const ProgressBar = ({
       const targetAmount = data.targetAmount;
       setTarget(targetAmount);
     });
+  }, [drinkAdded]);
 
+  useEffect(() => {
     let totalAmount = 0;
     for (const item of drinkList) {
       totalAmount += item.value;
@@ -60,12 +62,15 @@ const ProgressBar = ({
       Math.round((total / target) * 100),
       Math.round((totalAmount / target) * 100),
     ]);
-  }, [drinkList, drinkAdded]);
+  }, [drinkList, drinkAdded, target]);
 
   let percentageString = 0;
   let previousPercentageString = 0;
   let percentageString2 = 0;
   let previousPercentageString2 = 0;
+
+  console.log("this is target", target);
+  console.log("this is number counter", numberCounter);
 
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
@@ -148,8 +153,6 @@ const ProgressBar = ({
     })
     .slice(0, 10)
     .split(" ");
-
-  console.log(numberCounter);
 
   return (
     <View style={tw`flex-row justify-between items-center h-30% mt-1 z-10`}>
