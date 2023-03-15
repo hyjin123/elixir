@@ -57,7 +57,7 @@ const HomeScreen = () => {
 
   const userId = auth.currentUser.uid;
 
-  const confetti = useRef(null);
+  // const confetti = useRef(null);
 
   // get all the drink data from today
   useEffect(() => {
@@ -82,17 +82,17 @@ const HomeScreen = () => {
       }
 
       // get the target amount, if total amount exceeds the target amount, release the confetti
-      getSettings(userId).then((data) => {
-        if (totalAmount >= data.targetAmount) {
-          confetti.current.start();
-        }
-      });
+      // getSettings(userId).then((data) => {
+      //   if (totalAmount >= data.targetAmount) {
+      //     confetti.current.start();
+      //   }
+      // });
     });
   }, [date]);
 
   return (
     <SafeAreaView style={tw`bg-[#121212] flex-1`}>
-      <View
+      {/* <View
         style={{
           zIndex: 9999,
           position: "absolute",
@@ -107,7 +107,7 @@ const HomeScreen = () => {
           count={300}
           origin={{ x: -10, y: 0 }}
         />
-      </View>
+      </View> */}
 
       <Header setDrinkAdded={setDrinkAdded} />
       <ProgressBar
@@ -121,7 +121,6 @@ const HomeScreen = () => {
         drinkAddedAnimation={drinkAddedAnimation}
         date={date}
         setDate={setDate}
-        confetti={confetti}
       />
       <AddDrink
         userId={userId}
