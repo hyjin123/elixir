@@ -105,6 +105,11 @@ const ChooseSizeModal = ({
   }, [numberOfAddedOptions]);
 
   const mappedData = () => {
+    // sort all the options by value in ascending order
+    sizeOptions.sort((a, b) => {
+      return a.value - b.value;
+    });
+
     return sizeOptions?.map((item, index) => (
       <TouchableOpacity
         key={index}
