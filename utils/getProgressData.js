@@ -23,6 +23,9 @@ export const getProgressData = async (userId, date) => {
     );
   }
 
+  // reverse the array so that it is in correct order
+  daysArray.reverse();
+
   // Loop through the last 7 days and get the total amount data
   const progressArray = [];
   for (const day of daysArray) {
