@@ -25,7 +25,7 @@ const ChooseSizeModal = ({
 }) => {
   const [nameText, setNameText] = useState("");
   const [amountText, setAmountText] = useState("");
-  const [sizeOptions, setSizeOptions] = useState();
+  const [sizeOptions, setSizeOptions] = useState([]);
   // this state is used to run the "useEffect", whenever number of cup sizes options is changed (Ex. when a new size is added)
   const [numberOfAddedOptions, setNumberOfAddedOptions] = useState(0);
 
@@ -110,6 +110,7 @@ const ChooseSizeModal = ({
       return a.value - b.value;
     });
 
+    // map through the size options and display them in the modal
     return sizeOptions?.map((item, index) => (
       <TouchableOpacity
         key={index}
