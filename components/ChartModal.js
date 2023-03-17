@@ -1,15 +1,47 @@
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
-import React, { useState, useRef, useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
 import Modal from "react-native-modal";
 import tw from "twrnc";
-import { doc, setDoc } from "firebase/firestore";
-import { db, auth } from "../firebase";
 import { getSettings } from "../utils/getSettings";
 import { XMarkIcon } from "react-native-heroicons/solid";
+import { getProgressData } from "../utils/getProgressData";
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from "react-native-chart-kit";
 
-const ChartModal = ({ chartsModalVisible, setChartsModalVisible }) => {
+const ChartModal = ({ chartsModalVisible, setChartsModalVisible, userId }) => {
+  const [days, setDays] = useState([]);
+  const [progressData, setProgressData] = useState([]);
+
+  useEffect(() => {
+    const today = new Date();
+
+    getProgressData(userId, today).then((data) => {
+      // console.log("this is the progress data", data);
+      setDays(data.daysArray);
+      setProgressData(data.progressArray);
+    });
+  }, []);
+
   const handleClose = () => {
     setChartsModalVisible(false);
+  };
+
+  const data = { labels: days, datasets: [{ data: progressData }] };
+  const chartConfig = {
+    backgroundGradientFrom: "#1E2923",
+    backgroundGradientFromOpacity: 0,
+    backgroundGradientTo: "#08130D",
+    backgroundGradientToOpacity: 0.5,
+    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+    strokeWidth: 2, // optional, default 3
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false, // optional
   };
 
   return (
@@ -18,7 +50,7 @@ const ChartModal = ({ chartsModalVisible, setChartsModalVisible }) => {
       onBackdropPress={handleClose}
       backdropColor="#383838"
     >
-      <View style={tw`bg-black my-40 mx-1 px-6 py-3 rounded-xl`}>
+      <View style={tw`bg-black my-10 mx-1 px-6 py-3 rounded-xl`}>
         <TouchableOpacity
           onPress={handleClose}
           style={tw`absolute -top-8 right-2`}
@@ -29,19 +61,18 @@ const ChartModal = ({ chartsModalVisible, setChartsModalVisible }) => {
         <View style={tw`mt-6`}>
           <Text style={tw`text-white text-3xl font-bold`}>Settings</Text>
         </View>
+        <View>
+          <BarChart
+            data={data}
+            height={220}
+            verticalLabelRotation={30}
+            chartConfig={chartConfig}
+          />
+        </View>
         <View style={tw`justify-between mb-6 mt-6 pt-2`}>
           <Text style={tw`font-bold text-lg text-white`}>
             Daily Target Amount (ml)
           </Text>
-        </View>
-
-        {/* Buttons */}
-        <View style={tw`flex-row justify-evenly items-center my-6`}>
-          <TouchableOpacity
-            style={tw`rounded-xl py-3 px-4 bg-[#0099ff] w-18 items-center`}
-          >
-            <Text style={tw`text-white`}>Save</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>

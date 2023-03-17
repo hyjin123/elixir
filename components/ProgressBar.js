@@ -68,8 +68,8 @@ const ProgressBar = ({
   let percentageString2 = 0;
   let previousPercentageString2 = 0;
 
-  console.log("this is target", target);
-  console.log("this is number counter", numberCounter);
+  // console.log("this is target", target);
+  // console.log("this is number counter", numberCounter);
 
   // whenever the total amount changes (when a user adds a drink), change the output of the animation
   useEffect(() => {
