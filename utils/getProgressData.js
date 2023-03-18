@@ -28,6 +28,7 @@ export const getProgressData = async (userId, date) => {
 
   // Loop through the last 7 days and get the total amount data
   const progressArray = [];
+
   for (const day of daysArray) {
     const data = await getDoc(doc(db, "users", userId, "dates", day));
     // loop through all the drinks for each of the 7 days and add the total amount to the array
@@ -35,8 +36,22 @@ export const getProgressData = async (userId, date) => {
     for (const drink of data.data().drinks) {
       totalAmount += drink.value;
     }
-    progressArray.push(totalAmount);
+    progressArray.push({ value: totalAmount });
   }
 
-  return { daysArray, progressArray };
+  // find the highest drink amount out of the last 7 days, this is needed for the chart
+  let highestValue = 0;
+  let totalAmount = 0;
+
+  for (const amount of progressArray) {
+    totalAmount += amount.value;
+    if (amount.value > highestValue) {
+      highestValue = amount.value;
+    }
+  }
+
+  // calculate the average drink amount for the last 7 days
+  const averageValue = totalAmount / 7;
+
+  return { daysArray, progressArray, highestValue, averageValue };
 };

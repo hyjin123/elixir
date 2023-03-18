@@ -17,6 +17,8 @@ const ChartModal = ({
   const [days, setDays] = useState([]);
   const [progressData, setProgressData] = useState([]);
   const [target, setTarget] = useState(0);
+  const [highestValue, setHighestValue] = useState(0);
+  const [averageValue, setAverageValue] = useState(0);
 
   useEffect(() => {
     getSettings(userId).then((data) => {
@@ -36,6 +38,8 @@ const ChartModal = ({
       }
       setDays(yLabel);
       setProgressData(data.progressArray);
+      setHighestValue(data.highestValue);
+      setAverageValue(data.averageValue);
     });
   }, [drinkList]);
 
@@ -43,46 +47,13 @@ const ChartModal = ({
     setChartsModalVisible(false);
   };
 
-  // const data = {
-  //   labels: days,
-  //   datasets: [{ data: progressData }],
-  // };
-
-  console.log(days);
-  console.log(progressData);
-
-  const data = [
-    { label: "hello", value: 50 },
-    { value: 80 },
-    { value: 90 },
-    { value: 70 },
-  ];
-
-  // const chartConfig = {
-  //   fillShadowGradient: "#55b8fa",
-  //   fillShadowGradientOpacity: 1,
-  //   backgroundGradientFrom: "#1E2923",
-  //   backgroundGradientFromOpacity: 0,
-  //   backgroundGradientTo: "#08130D",
-  //   backgroundGradientToOpacity: 0.5,
-  //   color: (opacity = 1) => `rgba(85, 184, 250, ${opacity})`,
-  //   strokeWidth: 4, // optional, default 3
-  //   barPercentage: 0.6,
-  //   useShadowColorFromDataset: false, // optional
-  //   decimalPlaces: 0,
-  //   propsForBackgroundLines: {
-  //     translateX: 60,
-  //   },
-  //   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-  // };
-
   return (
     <Modal
       isVisible={chartsModalVisible}
       onBackdropPress={handleClose}
       backdropColor="#383838"
     >
-      <View style={tw`bg-black py-10 rounded-xl`}>
+      <View style={tw`bg-black py-6 rounded-xl`}>
         <TouchableOpacity
           onPress={handleClose}
           style={tw`absolute -top-8 right-2`}
@@ -90,44 +61,49 @@ const ChartModal = ({
           <XMarkIcon color="#D3D3D3" size={23} />
         </TouchableOpacity>
         <View style={tw`w-full pl-2`}>
-          <Text style={tw`text-lg text-white text-center pb-4`}>
+          <Text style={tw`text-2xl font-bold text-white text-center pb-4`}>
             Last 7 days
           </Text>
-          {/* <BarChart
-            data={data}
-            height={300}
-            width={330}
-            chartConfig={chartConfig}
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-            }}
-            fromZero={true}
-            yAxisSuffix=" ml"
-          /> */}
-          <BarChart
-            data={data}
-            backgroundColor="black"
-            frontColor="#55b8fa"
-            xAxisLabelTextStyle={{ color: "white" }}
-            yAxisColor="gray"
-            xAxisColor="gray"
-            yAxisTextStyle={{ color: "white" }}
-            rulesColor="black"
-            showReferenceLine1
-            referenceLine1Position={100}
-            referenceLine1Config={{
-              type: "dashed",
-              color: "green",
-              thickness: 2,
-              dashWidth: 6,
-              dashGap: 8,
-            }}
-          />
+          <View style={tw`w-100`}>
+            <BarChart
+              data={progressData}
+              backgroundColor="black"
+              frontColor="#55b8fa"
+              xAxisLabelTextStyle={{ color: "lightgray", textAlign: "center" }}
+              yAxisTextStyle={{ color: "lightgray" }}
+              xAxisLabelTexts={days}
+              rulesColor="#363636"
+              showReferenceLine1
+              referenceLine1Position={target}
+              referenceLine1Config={{
+                type: "dotted",
+                color: "#1d8233",
+                thickness: 2,
+                dashWidth: 6,
+                dashGap: 8,
+                labelText: "hey",
+              }}
+              barBorderRadius={4}
+              isAnimated
+              noOfSections={5}
+              maxValue={
+                highestValue > target ? highestValue + 500 : target + 500
+              }
+              minValue={0}
+              initialSpacing={25}
+              barWidth={20}
+              spacing={18}
+            />
+          </View>
         </View>
-        <View style={tw`justify-between mb-6 mt-6 pt-2`}>
-          <Text style={tw`font-bold text-lg text-white`}>
-            Your Average for this week
+        <View style={tw`justify-between mb-3 mt-10 pt-2`}>
+          <Text style={tw`font-bold text-lg text-white text-center`}>
+            Your Average for this week:
+          </Text>
+          <Text
+            style={tw`font-bold text-3xl text-white text-center text-[#55b8fa] mt-2`}
+          >
+            {averageValue.toFixed(0)} ml
           </Text>
         </View>
       </View>
