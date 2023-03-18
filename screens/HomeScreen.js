@@ -109,7 +109,11 @@ const HomeScreen = () => {
         />
       </View> */}
 
-      <Header setDrinkAdded={setDrinkAdded} userId={userId} />
+      <Header
+        setDrinkAdded={setDrinkAdded}
+        userId={userId}
+        drinkList={drinkList}
+      />
       <ProgressBar
         userId={userId}
         drinkList={drinkList}

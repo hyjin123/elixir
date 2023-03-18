@@ -5,7 +5,7 @@ import { Cog6ToothIcon, ChartBarIcon } from "react-native-heroicons/outline";
 import SettingsModal from "./SettingsModal";
 import ChartModal from "./ChartModal";
 
-const Header = ({ setDrinkAdded, userId }) => {
+const Header = ({ setDrinkAdded, userId, drinkList }) => {
   const [settingsModalVisible, setSettingsModalVisible] = useState(false);
   const [chartsModalVisible, setChartsModalVisible] = useState(false);
 
@@ -22,6 +22,7 @@ const Header = ({ setDrinkAdded, userId }) => {
         chartsModalVisible={chartsModalVisible}
         setChartsModalVisible={setChartsModalVisible}
         userId={userId}
+        drinkList={drinkList}
       />
       <TouchableOpacity
         onPress={() => setSettingsModalVisible(true)}
