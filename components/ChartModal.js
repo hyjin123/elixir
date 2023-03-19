@@ -85,11 +85,9 @@ const ChartModal = ({
               referenceLine1Config={{
                 type: "dotted",
                 color: "#1d8233",
-                thickness: 2,
-                dashWidth: 10,
+                thickness: 1,
+                dashWidth: 8,
                 dashGap: 4,
-                labelText: "hey",
-                zIndex: 0,
               }}
               barBorderRadius={4}
               isAnimated
@@ -104,7 +102,7 @@ const ChartModal = ({
               renderTooltip={(item, index) => {
                 return (
                   <View style={tw`rounded-md bg-[#3d3d3d] p-2 z-50 mb-2 -mr-4`}>
-                    <Text style={tw`text-center text-white`}>
+                    <Text style={tw`text-left text-white`}>
                       {fullDays[index].slice(4).slice(0, 6)}
                     </Text>
                     <Text style={tw`mt-1 text-center text-white`}>
@@ -117,7 +115,22 @@ const ChartModal = ({
             />
           </View>
         </View>
-        <View style={tw`justify-between mt-12 pt-2`}>
+        {/* this is a custom legend for the target line */}
+        <View style={tw`mt-8 mb-10 flex-row items-center justify-center`}>
+          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
+          <View style={tw`flex-row ml-2 justify-center items-center`}>
+            <Text style={tw`text-white text-xs text-[#9c9c9c]`}>
+              Target&nbsp;
+            </Text>
+            <Text style={tw`text-white text-xs text-[#9c9c9c]`}>
+              ({target} ml)
+            </Text>
+          </View>
+        </View>
+        <View style={tw`justify-between pt-2`}>
           <Text style={tw`font-bold text-lg text-white text-center`}>
             Your Average for this week:
           </Text>
