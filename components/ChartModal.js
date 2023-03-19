@@ -15,6 +15,7 @@ const ChartModal = ({
   drinkList,
 }) => {
   const [days, setDays] = useState([]);
+  const [fullDays, setFullDays] = useState([]);
   const [progressData, setProgressData] = useState([]);
   const [target, setTarget] = useState(0);
   const [highestValue, setHighestValue] = useState(0);
@@ -36,6 +37,7 @@ const ChartModal = ({
       for (const day of data.daysArray) {
         yLabel.push(day.slice(0, 3));
       }
+      setFullDays(data.daysArray);
       setDays(yLabel);
       setProgressData(data.progressArray);
       setHighestValue(data.highestValue);
@@ -53,7 +55,7 @@ const ChartModal = ({
       onBackdropPress={handleClose}
       backdropColor="#383838"
     >
-      <View style={tw`bg-black py-6 rounded-xl`}>
+      <View style={tw`bg-black py-8 -mx-2 rounded-xl`}>
         <TouchableOpacity
           onPress={handleClose}
           style={tw`absolute -top-8 right-2`}
@@ -61,17 +63,22 @@ const ChartModal = ({
           <XMarkIcon color="#D3D3D3" size={23} />
         </TouchableOpacity>
         <View style={tw`w-full pl-2`}>
-          <Text style={tw`text-2xl font-bold text-white text-center pb-4`}>
+          <Text style={tw`text-2xl font-bold text-white text-center pb-6`}>
             Last 7 days
           </Text>
           <View style={tw`w-100`}>
             <BarChart
               data={progressData}
               backgroundColor="black"
+              gradientColor={"#FFEEFE"}
               frontColor="#55b8fa"
               xAxisLabelTextStyle={{ color: "lightgray", textAlign: "center" }}
               yAxisTextStyle={{ color: "lightgray" }}
               xAxisLabelTexts={days}
+              yAxisLabelSuffix=" ml"
+              yAxisLabelWidth={60}
+              xAxisType={"dotted"}
+              xAxisColor="#363636"
               rulesColor="#363636"
               showReferenceLine1
               referenceLine1Position={target}
@@ -79,9 +86,10 @@ const ChartModal = ({
                 type: "dotted",
                 color: "#1d8233",
                 thickness: 2,
-                dashWidth: 6,
-                dashGap: 8,
+                dashWidth: 10,
+                dashGap: 4,
                 labelText: "hey",
+                zIndex: 0,
               }}
               barBorderRadius={4}
               isAnimated
@@ -90,20 +98,34 @@ const ChartModal = ({
                 highestValue > target ? highestValue + 500 : target + 500
               }
               minValue={0}
-              initialSpacing={25}
+              initialSpacing={22}
               barWidth={20}
-              spacing={18}
+              spacing={16}
+              renderTooltip={(item, index) => {
+                return (
+                  <View style={tw`rounded-md bg-[#3d3d3d] p-2 z-50 mb-2 -mr-4`}>
+                    <Text style={tw`text-center text-white`}>
+                      {fullDays[index].slice(4).slice(0, 6)}
+                    </Text>
+                    <Text style={tw`mt-1 text-center text-white`}>
+                      {progressData[index].value} ml
+                    </Text>
+                  </View>
+                );
+              }}
+              leftShiftForLastIndexTooltip={40}
             />
           </View>
         </View>
-        <View style={tw`justify-between mb-3 mt-10 pt-2`}>
+        <View style={tw`justify-between mt-12 pt-2`}>
           <Text style={tw`font-bold text-lg text-white text-center`}>
             Your Average for this week:
           </Text>
           <Text
-            style={tw`font-bold text-3xl text-white text-center text-[#55b8fa] mt-2`}
+            style={tw`font-bold text-4xl text-white text-center text-[#55b8fa] mt-4`}
           >
-            {averageValue.toFixed(0)} ml
+            {averageValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}{" "}
+            ml
           </Text>
         </View>
       </View>
