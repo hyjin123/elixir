@@ -6,13 +6,14 @@ import { getSettings } from "../utils/getSettings";
 import { XMarkIcon } from "react-native-heroicons/solid";
 import { getProgressData } from "../utils/getProgressData";
 // import { BarChart, LineChart } from "react-native-chart-kit";
-import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+import { BarChart } from "react-native-gifted-charts";
 
 const ChartModal = ({
   chartsModalVisible,
   setChartsModalVisible,
   userId,
   drinkList,
+  drinkAdded,
 }) => {
   const [days, setDays] = useState([]);
   const [fullDays, setFullDays] = useState([]);
@@ -43,7 +44,7 @@ const ChartModal = ({
       setHighestValue(data.highestValue);
       setAverageValue(data.averageValue);
     });
-  }, [drinkList]);
+  }, [drinkList, drinkAdded]);
 
   const handleClose = () => {
     setChartsModalVisible(false);
@@ -117,10 +118,10 @@ const ChartModal = ({
         </View>
         {/* this is a custom legend for the target line */}
         <View style={tw`mt-8 mb-10 flex-row items-center justify-center`}>
-          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
-          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
-          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
-          <View style={tw`bg-[#1d8233] w-2 h-0.2 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.25 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.25 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.25 mr-1`}></View>
+          <View style={tw`bg-[#1d8233] w-2 h-0.25 mr-1`}></View>
           <View style={tw`flex-row ml-2 justify-center items-center`}>
             <Text style={tw`text-white text-xs text-[#9c9c9c]`}>
               Target&nbsp;

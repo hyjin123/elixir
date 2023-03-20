@@ -111,6 +111,7 @@ const HomeScreen = () => {
 
       <Header
         setDrinkAdded={setDrinkAdded}
+        drinkAdded={drinkAdded}
         userId={userId}
         drinkList={drinkList}
       />
