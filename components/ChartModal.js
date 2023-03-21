@@ -55,6 +55,7 @@ const ChartModal = ({
       isVisible={chartsModalVisible}
       onBackdropPress={handleClose}
       backdropColor="#383838"
+      backdropOpacity={0.95}
     >
       <View style={tw`bg-black py-8 -mx-2 rounded-xl`}>
         <TouchableOpacity

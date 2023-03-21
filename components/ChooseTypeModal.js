@@ -114,6 +114,7 @@ const ChooseTypeModal = ({
       isVisible={modalVisible}
       onBackdropPress={handleClose}
       backdropColor="#383838"
+      backdropOpacity={0.95}
       avoidKeyboard={true}
     >
       <View style={tw`bg-black my-40 py-3 rounded-xl h-65%`}>
