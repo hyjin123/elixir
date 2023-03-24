@@ -15,35 +15,22 @@ Elixir is a mobile application that helps users easily keep track of their daily
 - Users can view previous drinks they had for the day (you can also delete previous drinks).
 - Users can track their last 7 day progress in a bar chart.
 
-### Home Page
+## The App
 
-View your progress for the day!
+|            Home Page            |                      Add a Drink                       |
+| :-----------------------------: | :----------------------------------------------------: |
+| View your progress for the day! | Select a drink and the amount and add it to the entry. |
+|        !["Home page"]()         |                   !["Add a drink"]()                   |
 
-!["Home page"]()
+|                         Custom Drink and Amount                         |                          Navigate Between Days                          |
+| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
+| Add a custom drink and custom amount which provides endless flexibility | View your progress from other days by navigating using the arrow button |
+|                     !["Custom drink and amount"]()                      |                      !["Navigate between days"]()                       |
 
-### Add a Drink
-
-Select a drink and the amount and add it to the entry.
-
-!["Add a drink"]()
-
-### Custom Drink and Amount
-
-Add a custom drink and custom amount which provides endless flexility.
-
-!["Custom drink and amount"]()
-
-### Navigate Between Days
-
-View your progress from other days by navigating using the arrow button.
-
-!["Navigate between days"]()
-
-### Track your Progress
-
-View important data for the last 7 days including a chart.
-
-!["Track your progress"]()
+|       Track your Progress       |
+| :-----------------------------: |
+| View your progress for the day! |
+|   !["Track your progress"]()    |
 
 ## Getting Started
 
