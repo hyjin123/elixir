@@ -17,10 +17,10 @@ Elixir is a mobile application that helps users easily keep track of their daily
 
 ## The App
 
-|            Home Page            |                      Add a Drink                       |
-| :-----------------------------: | :----------------------------------------------------: |
-| View your progress for the day! | Select a drink and the amount and add it to the entry. |
-|        !["Home page"]()         |                   !["Add a drink"]()                   |
+|                                        Home Page                                         |                                        Add a Drink                                         |
+| :--------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
+|                             View your progress for the day!                              |                   Select a drink and the amount and add it to the entry.                   |
+| !["Home page"](<https://github.com/hyjin123/elixir/blob/master/docs/10(5).jpg?raw=true>) | !["Add a drink"](<https://github.com/hyjin123/elixir/blob/master/docs/10(3).jpg?raw=true>) |
 
 |                         Custom Drink and Amount                         |                          Navigate Between Days                          |
 | :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
