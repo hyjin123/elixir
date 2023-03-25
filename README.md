@@ -29,7 +29,7 @@ Elixir is a mobile application that helps users easily keep track of their daily
 
 |                                       Previous Drinks                                       |                                           Change Dates                                            |
 | :-----------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |
-|           View and have the ability to delete your previous drinks for each day.            |                            Navigate between days to see your progress.                            |
+|                           View your previous drinks for each day.                           |                            Navigate between days to see your progress.                            |
 | !["Previous drinks"](https://github.com/hyjin123/elixir/blob/master/docs/gif2.gif?raw=true) | !["Navigate between days"](https://github.com/hyjin123/elixir/blob/master/docs/gif3.gif?raw=true) |
 
 |                                        Target                                        |                                            History                                            |
