@@ -22,15 +22,20 @@ Elixir is a mobile application that helps users easily keep track of their daily
 |                             View your progress for the day!                             |                 Select a drink and the amount and add it to the entry.                  |
 | !["Home page"](<https://github.com/hyjin123/elixir/blob/master/docs/1(1).jpg?raw=true>) | !["Add a drink"](https://github.com/hyjin123/elixir/blob/master/docs/gif1.gif?raw=true) |
 
-|                         Custom Drink and Amount                         |                          Navigate Between Days                          |
-| :---------------------------------------------------------------------: | :---------------------------------------------------------------------: |
-| Add a custom drink and custom amount which provides endless flexibility | View your progress from other days by navigating using the arrow button |
-|                     !["Custom drink and amount"]()                      |                      !["Navigate between days"]()                       |
+|                                     Custom Drink Type                                      |                                      Custom Drink Size                                      |
+| :----------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
+|                               Create your own custom drink.                                |                                Create your own custom size.                                 |
+| !["Custom drink"](<https://github.com/hyjin123/elixir/blob/master/docs/6(1).jpg?raw=true>) | !["Custom amount"](<https://github.com/hyjin123/elixir/blob/master/docs/4(1).jpg?raw=true>) |
 
-|       Track your Progress       |
-| :-----------------------------: |
-| View your progress for the day! |
-|   !["Track your progress"]()    |
+|                                       Previous Drinks                                       |                                           Change Dates                                            |
+| :-----------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------: |
+|           View and have the ability to delete your previous drinks for each day.            |                            Navigate between days to see your progress.                            |
+| !["Previous drinks"](https://github.com/hyjin123/elixir/blob/master/docs/gif2.gif?raw=true) | !["Navigate between days"](https://github.com/hyjin123/elixir/blob/master/docs/gif3.gif?raw=true) |
+
+|                                        Target                                        |                                            History                                            |
+| :----------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: |
+|                              Change your daily target.                               |                           View important data for your last 7 days.                           |
+| !["Target"](<https://github.com/hyjin123/elixir/blob/master/docs/7(1).jpg?raw=true>) | !["Last 7 day data"](<https://github.com/hyjin123/elixir/blob/master/docs/8(1).jpg?raw=true>) |
 
 ## Getting Started
 
